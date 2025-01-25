@@ -12,11 +12,21 @@ const resolvers: Resolvers = {
     viewer(_parent, _args, _context: Context, _info) {
       return _context.prisma.user.findFirst();
     },
+    list(_parent, _args, _context: Context, _info) {
+      return _context.prisma.user.findMany();
+    },
   },
   Mutation: {
-    updateName(_parent, _args, _context, _info) {
-      userProfile.name = _args.name;
-      return userProfile;
+    async updateName(_parent, _args, _context: Context, _info) {
+      const users = await _context.prisma.user.updateMany({
+        where: {
+          name: _args.name,
+        },
+        data: {
+          name: _args.to,
+        },
+      });
+      return _context.prisma.user.findFirst();
     },
   },
 };

@@ -7,10 +7,11 @@ const typeDefs = /* GraphQL */ `
 
   type Query {
     viewer: User!
+    list: [User!]!
   }
 
   type Mutation {
-    updateName(name: String!): User!
+    updateName(name: String!, to: String!): User!
   }
 `;
 

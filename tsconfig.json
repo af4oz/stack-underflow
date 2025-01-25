@@ -16,6 +16,17 @@
     "baseUrl": ".",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "graphql.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".cache"]
+  "include": [
+    "next-env.d.ts",
+    "graphql.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "prisma/seed.ts"
+  ],
+  "exclude": ["node_modules", ".cache"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

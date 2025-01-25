@@ -5,8 +5,8 @@ import { useState } from "react";
 import { initializeApollo } from "../lib/apollo";
 
 const updateNameDocument = graphql(/* GraphQL */ `
-  mutation UpdateName($name: String!) {
-    updateName(name: $name) {
+  mutation UpdateName($name: String!, $to: String!) {
+    updateName(name: $name, to: $to) {
       id
       name
       status
@@ -32,29 +32,30 @@ const Index = () => {
   const onChangeName = () => {
     updateNameMutation({
       variables: {
-        name: newName,
+        name: data.viewer.name,
+        to: newName,
       },
       // Follow apollo suggestion to update cache
       //  https://www.apollographql.com/docs/angular/features/cache-updates/#update
-      update: (cache, mutationResult) => {
-        const { data } = mutationResult;
-        if (!data) return; // Cancel updating name in cache if no data is returned from mutation.
-        // Read the data from our cache for this query.
-        const result = cache.readQuery({
-          query: viewerDocument,
-        });
+      // update: (cache, mutationResult) => {
+      //   const { data } = mutationResult;
+      //   if (!data) return; // Cancel updating name in cache if no data is returned from mutation.
+      //   // Read the data from our cache for this query.
+      //   const result = cache.readQuery({
+      //     query: viewerDocument,
+      //   });
 
-        const newViewer = result ? { ...result.viewer } : null;
-        // Add our comment from the mutation to the end.
-        // Write our data back to the cache.
-        if (newViewer) {
-          newViewer.name = data.updateName.name;
-          cache.writeQuery({
-            query: viewerDocument,
-            data: { viewer: newViewer },
-          });
-        }
-      },
+      //   const newViewer = result ? { ...result.viewer } : null;
+      //   // Add our comment from the mutation to the end.
+      //   // Write our data back to the cache.
+      //   if (newViewer) {
+      //     newViewer.name = data.updateName.name;
+      //     cache.writeQuery({
+      //       query: viewerDocument,
+      //       data: { viewer: newViewer },
+      //     });
+      //   }
+      // },
     });
   };
 

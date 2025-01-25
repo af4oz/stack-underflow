@@ -15,29 +15,30 @@ export type ResolverContext = {
   res?: ServerResponse;
 };
 
-function createIsomorphLink(context: ResolverContext = {}) {
-  if (typeof window === "undefined") {
-    const { SchemaLink } = require("@apollo/client/link/schema");
-    const { makeExecutableSchema } = require("@graphql-tools/schema");
+// function createIsomorphLink(context: ResolverContext = {}) {
+//   if (typeof window === "undefined") {
+//     const { SchemaLink } = require("@apollo/client/link/schema");
+//     const { makeExecutableSchema } = require("@graphql-tools/schema");
 
-    const schema = makeExecutableSchema({
-      typeDefs,
-      resolvers,
-    });
-    return new SchemaLink({ schema, context });
-  } else {
-    const { HttpLink } = require("@apollo/client");
-    return new HttpLink({
-      uri: "/api/graphql",
-      credentials: "same-origin",
-    });
-  }
-}
+//     const schema = makeExecutableSchema({
+//       typeDefs,
+//       resolvers,
+//     });
+//     return new SchemaLink({ schema, context });
+//   } else {
+//     const { HttpLink } = require("@apollo/client");
+//     return new HttpLink({
+//       uri: "/api/graphql",
+//       credentials: "same-origin",
+//     });
+//   }
+// }
 
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    link: createIsomorphLink(context),
+    uri: "http://localhost:3000/api/graphql",
+    // link: createIsomorphLink(context),
     cache: new InMemoryCache(),
   });
 }
@@ -46,7 +47,7 @@ export function initializeApollo(
   initialState: any = null,
   // Pages with Next.js data fetching methods, like `getStaticProps`, can send
   // a custom context which will be used by `SchemaLink` to server render pages
-  context?: ResolverContext,
+  context?: ResolverContext
 ) {
   const _apolloClient = apolloClient ?? createApolloClient(context);
 
