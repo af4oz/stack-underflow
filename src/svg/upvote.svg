@@ -1,0 +1,2 @@
+<!-- see: https://github.com/airbnb/babel-plugin-inline-react-svg/issues/76 why `style` causing issue -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 213.333 213.333"  xml:space="preserve"><path d="M106.667 53.333 0 160h213.333z"/></svg>
