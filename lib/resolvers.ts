@@ -1,3 +1,4 @@
+import { Context } from "./context";
 import { Resolvers } from "./resolvers-types";
 
 const userProfile = {
@@ -8,8 +9,8 @@ const userProfile = {
 
 const resolvers: Resolvers = {
   Query: {
-    viewer(_parent, _args, _context, _info) {
-      return userProfile;
+    viewer(_parent, _args, _context: Context, _info) {
+      return _context.prisma.user.findFirst();
     },
   },
   Mutation: {

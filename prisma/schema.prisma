@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  status String
+}
+
+// model User {
+//   id              String           @id @default(auto()) @map("_id") @db.ObjectId
+//   answers         Answer[]
+//   questions       Question[]
+//   recentAnswers   RecentActivity[]
+//   recentQuestions RecentActivity[]
+//   rep             Int
+//   role            RoleType
+//   totalAnswers    Int
+//   totalQuestions  Int
+//   username        String           @unique
+// }
+
+// model Question {
+//   id             String    @id @default(auto()) @map("_id") @db.ObjectId
+//   acceptedAnswer String
+//   answerCount    Int
+//   answers        Answer[]
+//   author         Author
+//   body           String
+//   comments       Comment[]
+//   hotAlgo        Float
+//   points         Int
+//   tags           String[]
+//   title          String
+//   views          Int
+//   voted          VoteType
+//   User           User?     @relation(fields: [userId], references: [id])
+//   userId         String?   @db.ObjectId
+// }
+
+// model Answer {
+//   id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   author     Author
+//   body       String
+//   comments   Comment[]
+//   points     Int
+//   voted      VoteType
+//   User       User?     @relation(fields: [userId], references: [id])
+//   userId     String?   @db.ObjectId
+//   Question   Question? @relation(fields: [questionId], references: [id])
+//   questionId String?   @db.ObjectId
+// }
+
+// type Author {
+//   id       String
+//   username String
+// }
+
+// model Comment {
+//   id         String    @id @default(auto()) @map("_id") @db.ObjectId
+//   author     Author
+//   body       String
+//   Question   Question? @relation(fields: [questionId], references: [id])
+//   questionId String?   @db.ObjectId
+//   Answer     Answer?   @relation(fields: [answerId], references: [id])
+//   answerId   String?   @db.ObjectId
+// }
+
+// enum CommentParentType {
+//   Answer
+//   Question
+// }
+
+// type RecentActivity {
+//   id        String
+//   createdAt DateTime
+//   points    Int
+//   title     String
+// }
+
+// model Tag {
+//   id            String @id @default(auto()) @map("_id") @db.ObjectId
+//   name          String
+//   questionCount Int
+// }
+
+// enum VoteType {
+//   DOWNVOTE
+//   UPVOTE
+// }
+
+// enum RoleType {
+//   ADMIN
+//   USER
+// }
