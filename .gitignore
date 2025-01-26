@@ -49,3 +49,6 @@ next-env.d.ts
 
 lib/resolvers-types.ts
 lib/graphql-operations.ts
+
+.idx/*
+!.idx/dev.nix
