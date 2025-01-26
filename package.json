@@ -2,9 +2,9 @@
   "private": true,
   "scripts": {
     "codegen": "graphql-codegen -w",
-    "dev": "yarn graphql-codegen && next",
-    "build": "yarn graphql-codegen && next build",
-    "test": "yarn graphql-codegen && jest",
+    "dev": "graphql-codegen && next",
+    "build": "graphql-codegen && next build",
+    "test": "graphql-codegen && jest",
     "start": "next start"
   },
   "dependencies": {
