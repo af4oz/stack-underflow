@@ -1,6 +1,6 @@
 const typeDefs = /* GraphQL */ `
   type User {
-    id: ID!
+    id: Int!
     name: String!
     status: String!
   }

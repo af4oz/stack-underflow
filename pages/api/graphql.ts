@@ -19,4 +19,8 @@ export default createYoga<{
   context: context,
   // Needed to be defined explicitly because our endpoint lives at a different path other than `/graphql`
   graphqlEndpoint: "/api/graphql",
+  // cors: {
+  //   origin: '*',
+  //   credentials: false
+  // }
 });

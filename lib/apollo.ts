@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { useMemo } from "react";
 import {
   ApolloClient,
+  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
@@ -15,30 +16,35 @@ export type ResolverContext = {
   res?: ServerResponse;
 };
 
-// function createIsomorphLink(context: ResolverContext = {}) {
-//   if (typeof window === "undefined") {
-//     const { SchemaLink } = require("@apollo/client/link/schema");
-//     const { makeExecutableSchema } = require("@graphql-tools/schema");
+function createIsomorphLink(context: ResolverContext = {}) {
+  if (typeof window === "undefined") {
+    const { SchemaLink } = require("@apollo/client/link/schema");
+    const { makeExecutableSchema } = require("@graphql-tools/schema");
 
-//     const schema = makeExecutableSchema({
-//       typeDefs,
-//       resolvers,
-//     });
-//     return new SchemaLink({ schema, context });
-//   } else {
-//     const { HttpLink } = require("@apollo/client");
-//     return new HttpLink({
-//       uri: "/api/graphql",
-//       credentials: "same-origin",
-//     });
-//   }
-// }
-
+    const schema = makeExecutableSchema({
+      typeDefs,
+      resolvers,
+    });
+    return new SchemaLink({ schema, context });
+  } else {
+    const { HttpLink } = require("@apollo/client");
+    return new HttpLink({
+      uri: "/api/graphql",
+      credentials: "same-origin",
+    });
+  }
+}
+console.log(process.env)
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    uri: "http://localhost:3000/api/graphql",
+    uri: "https://3000-idx-stack-underflow-1737826661444.cluster-qpa6grkipzc64wfjrbr3hsdma2.cloudworkstations.dev/api/graphql",
+    // credentials: "same-origin",
     // link: createIsomorphLink(context),
+    // link: new HttpLink({
+    //   uri: "/api/graphql",
+    //   credentials: "same-origin",
+    // }),
     cache: new InMemoryCache(),
   });
 }
