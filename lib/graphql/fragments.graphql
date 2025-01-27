@@ -1,0 +1,71 @@
+fragment AuthorDetails on Author {
+  id
+  username
+}
+
+fragment AnswerDetails on Answer {
+  id
+  author {
+    ...AuthorDetails
+  }
+  body
+  comments {
+    ...CommentDetails
+  }
+  points
+  voted
+  createdAt
+  updatedAt
+}
+
+fragment QuestionDetails on Question {
+  id
+  author {
+    ...AuthorDetails
+  }
+  title
+  body
+  tags
+  points
+  views
+  acceptedAnswer
+  comments {
+    ...CommentDetails
+  }
+  answers {
+    ...AnswerDetails
+  }
+  voted
+  createdAt
+  updatedAt
+}
+fragment PostQuestionDetails on Question {
+  id
+  author {
+    ...AuthorDetails
+  }
+  title
+  body
+  tags
+  points
+  views
+  voted
+  createdAt
+  updatedAt
+}
+fragment LoggedUserDetails on LoggedUser {
+  id
+  username
+  role
+  token
+}
+
+fragment CommentDetails on Comment {
+  id
+  author {
+    ...AuthorDetails
+  }
+  body
+  createdAt
+  updatedAt
+}

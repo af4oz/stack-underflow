@@ -8,7 +8,7 @@ const config: CodegenConfig = {
       },
     },
   ],
-  documents: "./pages/**/*.tsx",
+  documents: "./lib/graphql/**/*.graphql",
   generates: {
     "./lib/gql/": {
       preset: "client",
