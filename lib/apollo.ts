@@ -2,7 +2,6 @@ import { IncomingMessage, ServerResponse } from "http";
 import { useMemo } from "react";
 import {
   ApolloClient,
-  HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
@@ -37,13 +36,7 @@ function createIsomorphLink(context: ResolverContext = {}) {
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    uri: "http://localhost:3000/api/graphql",
-    // credentials: "same-origin",
-    // link: createIsomorphLink(context),
-    // link: new HttpLink({
-    //   uri: "/api/graphql",
-    //   credentials: "same-origin",
-    // }),
+    link: createIsomorphLink(context),
     cache: new InMemoryCache(),
   });
 }
