@@ -34,11 +34,10 @@ function createIsomorphLink(context: ResolverContext = {}) {
     });
   }
 }
-console.log(process.env)
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
-    uri: "https://3000-idx-stack-underflow-1737826661444.cluster-qpa6grkipzc64wfjrbr3hsdma2.cloudworkstations.dev/api/graphql",
+    uri: "http://localhost:3000/api/graphql",
     // credentials: "same-origin",
     // link: createIsomorphLink(context),
     // link: new HttpLink({
