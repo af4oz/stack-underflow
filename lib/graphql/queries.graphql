@@ -50,9 +50,6 @@ query fetchQuestion($quesId: ID!) {
     answers {
       ...AnswerDetails
     }
-    author {
-      ...AuthorDetails
-    }
     comments {
       ...CommentDetails
     }

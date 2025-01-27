@@ -65,6 +65,8 @@ const typeDefs = /* GraphQL */ `
     voted: VoteType
     createdAt: DateTime!
     updatedAt: DateTime!
+    upvoteCount: Int!
+    downvoteCount: Int!
   }
 
   type RecentActivity {

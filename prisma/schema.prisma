@@ -8,19 +8,20 @@ datasource db {
 }
 
 model Answer {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   // v         Int      @map("__v")
-  body      String
-  createdAt DateTime @default(now()) @db.Date
+  body       String
+  createdAt  DateTime @default(now()) @db.Date
   // from      String
   // local     String
-  points    Int
-  question  String   @db.ObjectId
-  updatedAt DateTime @default(now()) @db.Date
+  points     Int      @default(0)
+  updatedAt  DateTime @default(now()) @db.Date
   /// Could not determine type: the field only had null or empty values in the sample set.
   // voted     Json?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String   @db.ObjectId
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String   @db.ObjectId
 }
 
 model AnswerVotes {
@@ -42,21 +43,23 @@ model Comment {
 }
 
 model Question {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   // v         Int      @map("__v")
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  body      String
-  createdAt DateTime @default(now()) @db.Date
+  author         User     @relation(fields: [authorId], references: [id])
+  authorId       String   @db.ObjectId
+  body           String
+  createdAt      DateTime @default(now()) @db.Date
   // from      String
   // local     String
-  points    Int      @default(0)
-  tags      String[]
-  title     String
-  updatedAt DateTime @default(now()) @db.Date
-  views     Int      @default(0)
+  points         Int      @default(0)
+  tags           String[]
+  title          String
+  updatedAt      DateTime @default(now()) @db.Date
+  views          Int      @default(0)
   /// Could not determine type: the field only had null or empty values in the sample set.
   // voted     String?
+  answers        Answer[]
+  acceptedAnswer String?  @db.ObjectId
 }
 
 model QuestionVotes {
@@ -70,8 +73,8 @@ model QuestionVotes {
 model Tag {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
   // v             Int    @map("__v")
-  name          String
-  questionCount Int
+  name          String @unique
+  questionCount Int    @default(1)
 }
 
 model User {
@@ -79,8 +82,8 @@ model User {
   // v            Int      @map("__v")
   createdAt    DateTime   @default(now()) @db.Date
   passwordHash String
-  rep          Int
-  role         String
+  rep          Int        @default(0)
+  role         String     @default("user")
   username     String     @unique(map: "username_1")
   questions    Question[]
   answers      Answer[]
