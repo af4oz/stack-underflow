@@ -4,11 +4,15 @@
     pkgs.nodejs_20
     pkgs.nodePackages.npm
     pkgs.openssl
+    pkgs.docker-compose
   ];
   services = {
     # mongodb = {
     #   enable = true;
     # };
+    docker = {
+      enable = true;
+    };
   };
   idx = {
     extensions = [
@@ -28,6 +32,7 @@
         # Example: start a background task to watch and re-build backend code
         # watch-backend = "yarn server build && yarn server start:dev";
         # start-database = "mongod --port 27017 --fork --logpath ./.idx/database.log --dbpath ./.idx/.data";
+        run-setup = "docker-compose up -d";
       };
     };
     previews = {
