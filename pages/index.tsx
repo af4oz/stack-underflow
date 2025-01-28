@@ -1,4 +1,4 @@
-import { initializeApollo } from "lib/apollo";
+import { initializeApollo } from "src/lib/apollo";
 
 const Index = () => {
     return (

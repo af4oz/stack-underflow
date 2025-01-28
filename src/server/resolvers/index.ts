@@ -1,7 +1,7 @@
-import getUser from "server/utils/getUser";
-import { Context } from "../context";
+import getUser from "src/server/utils/getUser";
+import { Context } from "./context";
 import prisma from "../prisma";
-import { Resolvers, VoteType } from "../resolvers-types";
+import { Resolvers, VoteType } from "../__generated__/resolvers-types";
 import mutationResolvers from "./mutation";
 import queryResolvers from "./query";
 

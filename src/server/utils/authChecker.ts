@@ -2,7 +2,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 // import { TContext } from "../types";
 import { JWT_SECRET } from "./config";
-import { Context } from "lib/context";
+import { Context } from "src/server/resolvers/context";
 
 const authChecker = (context?: Context) => {
   try {

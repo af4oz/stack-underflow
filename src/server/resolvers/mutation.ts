@@ -1,16 +1,16 @@
-import { CommentParentType, Resolvers, VoteType } from "lib/resolvers-types";
-import { getChangedTags } from "server/utils";
-import authChecker from "server/utils/authChecker";
-import { JWT_SECRET } from "server/utils/config";
-import errorHandler from "server/utils/errorHandler";
+import { CommentParentType, Resolvers, VoteType } from "src/server/__generated__/resolvers-types";
+import { getChangedTags } from "src/server/utils";
+import authChecker from "src/server/utils/authChecker";
+import { JWT_SECRET } from "src/server/utils/config";
+import errorHandler from "src/server/utils/errorHandler";
 import {
   registerValidator,
   loginValidator,
   questionValidator,
-} from "server/utils/validators";
+} from "src/server/utils/validators";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { Context } from "../context";
+import { Context } from "./context";
 
 const mutationResolvers: Resolvers["Mutation"] = {
   register: async (parent, { username, password }, c: Context) => {

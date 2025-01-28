@@ -3,18 +3,18 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   schema: [
     {
-      "lib/schema.ts": {
+      "./src/server/schema.ts": {
         noRequire: true,
       },
     },
   ],
-  documents: "./lib/graphql/**/*.graphql",
+  documents: "./src/lib/graphql/**/*.graphql",
   generates: {
-    "./lib/gql/": {
+    "./src/lib/__generated__/": {
       preset: "client",
       plugins: [],
     },
-    "./lib/resolvers-types.ts": {
+    "./src/server/__generated__/resolvers-types.ts": {
       plugins: ["typescript", "typescript-resolvers"],
     },
   },

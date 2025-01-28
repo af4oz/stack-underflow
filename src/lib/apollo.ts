@@ -5,8 +5,8 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
+import resolvers from "../server/resolvers";
+import typeDefs from "../server/schema";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 

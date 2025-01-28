@@ -1,7 +1,7 @@
-import { QuestionSortBy, Resolvers } from "lib/resolvers-types";
-import authChecker from "server/utils/authChecker";
-import errorHandler from "server/utils/errorHandler";
-import { Context } from "../context";
+import { QuestionSortBy, Resolvers } from "src/server/__generated__/resolvers-types";
+import authChecker from "src/server/utils/authChecker";
+import errorHandler from "src/server/utils/errorHandler";
+import { Context } from "./context";
 
 const queryResolvers: Resolvers["Query"] = {
   whoami: async (parent, args, c: Context) => {

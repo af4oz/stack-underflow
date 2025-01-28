@@ -1,4 +1,4 @@
-import { PageLimit } from "server/types";
+import { PageLimit } from "src/server/types";
 
 export const paginateResults = (
   page: number,

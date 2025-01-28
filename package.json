@@ -43,6 +43,7 @@
     "yaml-loader": "0.6.0"
   },
   "prisma": {
+    "schema":  "server/prisma/schema.prisma",
     "seed": "ts-node prisma/seed.ts"
   }
 }
