@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  reactStrictMode: true,
   webpack(config, options) {
     config.module.rules.push({
       test: /\.ya?ml$/,
@@ -9,4 +10,7 @@ module.exports = {
 
     return config;
   },
+  images: {
+    domains: ['secure.gravatar.com'],
+  }
 };

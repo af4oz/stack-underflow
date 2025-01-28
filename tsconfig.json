@@ -14,8 +14,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "~~/*": ["./src/*"]
+    }
   },
-  "include": ["next-env.d.ts", "graphql.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "graphql.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/types"
+  ],
   "exclude": ["node_modules", ".cache"]
 }
