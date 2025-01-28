@@ -87,14 +87,25 @@ const resolvers: Resolvers = {
         return null;
       }
     },
-    hotAlgo: (parent) => {
-      return (
-        Math.log(
-          Math.max(Math.abs(parent.upvoteCount - parent.downvoteCount), 1)
+    hotAlgo: async (parent, a, c: Context) => {
+      const upvoteCount = await c.prisma.questionVotes.count({
+        where: {
+          id: parent.id,
+          vote: VoteType.Upvote,
+        },
+      });
+      const downvoteCount = await c.prisma.questionVotes.count({
+        where: {
+          id: parent.id,
+          vote: VoteType.Downvote,
+        },
+      });
+      const result =         Math.log(
+          Math.max(Math.abs(upvoteCount - downvoteCount), 1)
         ) +
         Math.log(Math.max(parent.views * 2, 1)) +
         parent.createdAt.getTime() / 4500
-      );
+      return result;
     },
     answerCount: async (parent) => {
       return prisma.answer.count({
@@ -103,13 +114,14 @@ const resolvers: Resolvers = {
         },
       });
     },
-    upvoteCount: async (parent) => {
-      return prisma.questionVotes.count({
+    upvoteCount: async (parent, a,c:Context) => {
+      const result = await c.prisma.questionVotes.count({
         where: {
           id: parent.id,
           vote: VoteType.Upvote,
         },
       });
+      return result
     },
     downvoteCount: async (parent) => {
       return prisma.questionVotes.count({

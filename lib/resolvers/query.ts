@@ -8,7 +8,11 @@ const queryResolvers: Resolvers["Query"] = {
     try {
       const loggedUser = authChecker(c);
       if (loggedUser.id) {
-        const user = await c.prisma.user.findUnique(loggedUser.id);
+        const user = await c.prisma.user.findUnique({
+          where: {
+            id: loggedUser.id,
+          }
+        });
         if (!user) {
           throw new Error(
             `User with ID: ${loggedUser.id} does not exist in DB.`

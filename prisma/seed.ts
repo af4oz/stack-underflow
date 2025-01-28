@@ -4,14 +4,14 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   console.time("Seeding complete 🌱");
-  await prisma.user.createMany({
-    data: [
-      {
-        name: "One",
-        status: "Cached",
-      },
-    ],
-  });
+  // await prisma.user.createMany({
+  //   data: [
+  //     {
+  //       name: "One",
+  //       status: "Cached",
+  //     },
+  //   ],
+  // });
   console.timeEnd("Seeding complete 🌱");
 };
 

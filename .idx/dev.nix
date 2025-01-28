@@ -19,6 +19,7 @@
       # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
       "vscodevim.vim"
       "esbenp.prettier-vscode"
+      "prisma.prisma"
       # "mongodb.mongodb-vscode"
     ];
     workspace = {

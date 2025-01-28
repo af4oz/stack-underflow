@@ -29,7 +29,7 @@ model AnswerVotes {
   // v      Int    @map("__v")
   ansId  String @db.ObjectId
   userId String @db.ObjectId
-  vote   String
+  vote   VoteType
 }
 
 model Comment {
@@ -67,7 +67,7 @@ model QuestionVotes {
   // v      Int    @map("__v")
   quesId String @db.ObjectId
   userId String @db.ObjectId
-  vote   String
+  vote   VoteType
 }
 
 model Tag {
@@ -83,8 +83,18 @@ model User {
   createdAt    DateTime   @default(now()) @db.Date
   passwordHash String
   rep          Int        @default(0)
-  role         String     @default("user")
+  role         RoleType   @default(USER)
   username     String     @unique(map: "username_1")
   questions    Question[]
   answers      Answer[]
+}
+
+enum RoleType {
+  USER
+  ADMIN
+}
+
+enum VoteType {
+  DOWNVOTE
+  UPVOTE
 }
