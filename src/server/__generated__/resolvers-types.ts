@@ -4,49 +4,51 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  DateTime: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
 };
 
 export type Answer = {
   __typename?: 'Answer';
   author: Author;
-  body: Scalars['String'];
+  body: Scalars['String']['output'];
   comments: Array<Comment>;
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  points: Scalars['Int'];
-  updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  points: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   voted?: Maybe<VoteType>;
 };
 
 export type AnswerVotes = {
   __typename?: 'AnswerVotes';
-  ansId: Scalars['ID'];
-  userId: Scalars['ID'];
+  ansId: Scalars['ID']['output'];
+  userId: Scalars['ID']['output'];
   vote: VoteType;
 };
 
 export type Author = {
   __typename?: 'Author';
-  id: Scalars['ID'];
-  username: Scalars['String'];
+  id: Scalars['ID']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Comment = {
   __typename?: 'Comment';
   author: Author;
-  body: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  updatedAt: Scalars['DateTime'];
+  body: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export enum CommentParentType {
@@ -56,25 +58,25 @@ export enum CommentParentType {
 
 export type GetAllTagsResult = {
   __typename?: 'GetAllTagsResult';
-  nextCursor: Scalars['String'];
+  nextCursor: Scalars['String']['output'];
   tags: Array<Tag>;
 };
 
 export type LoggedUser = {
   __typename?: 'LoggedUser';
-  id: Scalars['ID'];
-  role: Scalars['String'];
-  token: Scalars['String'];
-  username: Scalars['String'];
+  id: Scalars['ID']['output'];
+  role: Scalars['String']['output'];
+  token: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   acceptAnswer: Question;
   addComment: Comment;
-  deleteAnswer: Scalars['ID'];
-  deleteComment: Scalars['ID'];
-  deleteQuestion: Scalars['ID'];
+  deleteAnswer: Scalars['ID']['output'];
+  deleteComment: Scalars['ID']['output'];
+  deleteQuestion: Scalars['ID']['output'];
   editAnswer: Array<Answer>;
   editComment: Comment;
   editQuestion: Question;
@@ -88,107 +90,107 @@ export type Mutation = {
 
 
 export type MutationAcceptAnswerArgs = {
-  ansId: Scalars['ID'];
-  quesId: Scalars['ID'];
+  ansId: Scalars['ID']['input'];
+  quesId: Scalars['ID']['input'];
 };
 
 
 export type MutationAddCommentArgs = {
-  body: Scalars['String'];
-  parentId: Scalars['ID'];
+  body: Scalars['String']['input'];
+  parentId: Scalars['ID']['input'];
   parentType: CommentParentType;
 };
 
 
 export type MutationDeleteAnswerArgs = {
-  ansId: Scalars['ID'];
-  quesId: Scalars['ID'];
+  ansId: Scalars['ID']['input'];
+  quesId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteCommentArgs = {
-  commentId: Scalars['ID'];
+  commentId: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteQuestionArgs = {
-  quesId: Scalars['ID'];
+  quesId: Scalars['ID']['input'];
 };
 
 
 export type MutationEditAnswerArgs = {
-  ansId: Scalars['ID'];
-  body: Scalars['String'];
-  quesId: Scalars['ID'];
+  ansId: Scalars['ID']['input'];
+  body: Scalars['String']['input'];
+  quesId: Scalars['ID']['input'];
 };
 
 
 export type MutationEditCommentArgs = {
-  body: Scalars['String'];
-  commentId: Scalars['ID'];
+  body: Scalars['String']['input'];
+  commentId: Scalars['ID']['input'];
 };
 
 
 export type MutationEditQuestionArgs = {
-  body: Scalars['String'];
-  quesId: Scalars['ID'];
-  tags: Array<Scalars['String']>;
-  title: Scalars['String'];
+  body: Scalars['String']['input'];
+  quesId: Scalars['ID']['input'];
+  tags: Array<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
 };
 
 
 export type MutationLoginArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
 export type MutationPostAnswerArgs = {
-  body: Scalars['String'];
-  quesId: Scalars['ID'];
+  body: Scalars['String']['input'];
+  quesId: Scalars['ID']['input'];
 };
 
 
 export type MutationPostQuestionArgs = {
-  body: Scalars['String'];
-  tags: Array<Scalars['String']>;
-  title: Scalars['String'];
+  body: Scalars['String']['input'];
+  tags: Array<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
 };
 
 
 export type MutationRegisterArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
 export type MutationVoteAnswerArgs = {
-  ansId: Scalars['ID'];
-  quesId: Scalars['ID'];
+  ansId: Scalars['ID']['input'];
+  quesId: Scalars['ID']['input'];
   voteType: VoteType;
 };
 
 
 export type MutationVoteQuestionArgs = {
-  quesId: Scalars['ID'];
+  quesId: Scalars['ID']['input'];
   voteType: VoteType;
 };
 
 export type NextPrevPage = {
   __typename?: 'NextPrevPage';
-  limit: Scalars['Float'];
-  page: Scalars['Float'];
+  limit: Scalars['Float']['output'];
+  page: Scalars['Float']['output'];
 };
 
 export type PaginatedQuesList = {
   __typename?: 'PaginatedQuesList';
-  currentPage: Scalars['Float'];
-  pageSize: Scalars['Float'];
+  currentPage: Scalars['Float']['output'];
+  pageSize: Scalars['Float']['output'];
   questions: Array<Maybe<Question>>;
-  search?: Maybe<Scalars['String']>;
+  search?: Maybe<Scalars['String']['output']>;
   sortBy: QuestionSortBy;
-  tag?: Maybe<Scalars['String']>;
-  totalCount: Scalars['Float'];
+  tag?: Maybe<Scalars['String']['output']>;
+  totalCount: Scalars['Float']['output'];
 };
 
 export type Query = {
@@ -203,48 +205,48 @@ export type Query = {
 
 
 export type QueryGetAllTagsArgs = {
-  cursor?: InputMaybe<Scalars['ID']>;
-  filterBySearch?: InputMaybe<Scalars['String']>;
-  limit?: InputMaybe<Scalars['Int']>;
+  cursor?: InputMaybe<Scalars['ID']['input']>;
+  filterBySearch?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryGetQuestionsArgs = {
-  filterBySearch?: InputMaybe<Scalars['String']>;
-  filterByTag?: InputMaybe<Scalars['String']>;
-  limit: Scalars['Int'];
-  page: Scalars['Int'];
+  filterBySearch?: InputMaybe<Scalars['String']['input']>;
+  filterByTag?: InputMaybe<Scalars['String']['input']>;
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
   sortBy?: InputMaybe<QuestionSortBy>;
 };
 
 
 export type QueryGetUserArgs = {
-  username: Scalars['String'];
+  username: Scalars['String']['input'];
 };
 
 
 export type QueryViewQuestionArgs = {
-  quesId: Scalars['ID'];
+  quesId: Scalars['ID']['input'];
 };
 
 export type Question = {
   __typename?: 'Question';
-  acceptedAnswer?: Maybe<Scalars['ID']>;
-  answerCount: Scalars['Int'];
+  acceptedAnswer?: Maybe<Scalars['ID']['output']>;
+  answerCount: Scalars['Int']['output'];
   answers: Array<Answer>;
   author: Author;
-  body: Scalars['String'];
+  body: Scalars['String']['output'];
   comments: Array<Comment>;
-  createdAt: Scalars['DateTime'];
-  downvoteCount: Scalars['Int'];
-  hotAlgo: Scalars['Float'];
-  id: Scalars['ID'];
-  points: Scalars['Int'];
-  tags: Array<Scalars['String']>;
-  title: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  upvoteCount: Scalars['Int'];
-  views: Scalars['Int'];
+  createdAt: Scalars['DateTime']['output'];
+  downvoteCount: Scalars['Int']['output'];
+  hotAlgo: Scalars['Float']['output'];
+  id: Scalars['ID']['output'];
+  points: Scalars['Int']['output'];
+  tags: Array<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  upvoteCount: Scalars['Int']['output'];
+  views: Scalars['Int']['output'];
   voted?: Maybe<VoteType>;
 };
 
@@ -258,17 +260,17 @@ export enum QuestionSortBy {
 
 export type QuestionVotes = {
   __typename?: 'QuestionVotes';
-  quesId: Scalars['ID'];
-  userId: Scalars['ID'];
+  quesId: Scalars['ID']['output'];
+  userId: Scalars['ID']['output'];
   vote: VoteType;
 };
 
 export type RecentActivity = {
   __typename?: 'RecentActivity';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  points: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  points: Scalars['Int']['output'];
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export enum RoleType {
@@ -278,24 +280,24 @@ export enum RoleType {
 
 export type Tag = {
   __typename?: 'Tag';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  questionCount: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  questionCount: Scalars['Int']['output'];
 };
 
 export type User = {
   __typename?: 'User';
   answers: Array<Answer>;
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
   questions: Array<Question>;
   recentAnswers: Array<RecentActivity>;
   recentQuestions: Array<RecentActivity>;
-  rep: Scalars['Int'];
+  rep: Scalars['Int']['output'];
   role: RoleType;
-  totalAnswers: Scalars['Int'];
-  totalQuestions: Scalars['Int'];
-  username: Scalars['String'];
+  totalAnswers: Scalars['Int']['output'];
+  totalQuestions: Scalars['Int']['output'];
+  username: Scalars['String']['output'];
 };
 
 export enum VoteType {
