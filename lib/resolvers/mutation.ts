@@ -31,7 +31,8 @@ const mutationResolvers: Resolvers["Mutation"] = {
     }
 
     const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+    // const passwordHash = await bcrypt.hash(password, saltRounds); // TODO
+    const passwordHash = password; // TODO
 
     const savedUser = await c.prisma.user.create({
       data: {
@@ -73,7 +74,8 @@ const mutationResolvers: Resolvers["Mutation"] = {
       // throw new UserInputError(`User: '${username}' not found.`);
     }
 
-    const credentialsValid = await bcrypt.compare(password, user.passwordHash);
+    // const credentialsValid = await bcrypt.compare(password, user.passwordHash);
+    const credentialsValid = password === user.passwordHash;
 
     if (!credentialsValid) {
       // throw new UserInputError("Invalid credentials.");
@@ -104,7 +106,11 @@ const mutationResolvers: Resolvers["Mutation"] = {
     }
 
     try {
-      const author = await c.prisma.user.findFirst(loggedUser.id);
+      const author = await c.prisma.user.findFirst({
+        where: {
+          id: loggedUser.id
+        }
+      });
 
       if (!author) {
         // throw new UserInputError(
