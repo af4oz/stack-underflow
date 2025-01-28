@@ -5,8 +5,8 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
+import resolvers from "../server/resolvers";
+import typeDefs from "../server/schema";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
@@ -33,7 +33,6 @@ function createIsomorphLink(context: ResolverContext = {}) {
     });
   }
 }
-
 function createApolloClient(context?: ResolverContext) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
@@ -46,7 +45,7 @@ export function initializeApollo(
   initialState: any = null,
   // Pages with Next.js data fetching methods, like `getStaticProps`, can send
   // a custom context which will be used by `SchemaLink` to server render pages
-  context?: ResolverContext,
+  context?: ResolverContext
 ) {
   const _apolloClient = apolloClient ?? createApolloClient(context);
 

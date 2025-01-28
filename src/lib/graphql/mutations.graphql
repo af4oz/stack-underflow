@@ -1,0 +1,87 @@
+mutation registerUser($username: String!, $password: String!) {
+  register(username: $username, password: $password) {
+    ...LoggedUserDetails
+  }
+}
+
+mutation loginUser($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    ...LoggedUserDetails
+  }
+}
+
+mutation addQuestion($title: String!, $body: String!, $tags: [String!]!) {
+  postQuestion(title: $title, body: $body, tags: $tags) {
+    ...PostQuestionDetails
+  }
+}
+
+mutation updateQuestion(
+  $quesId: ID!
+  $title: String!
+  $body: String!
+  $tags: [String!]!
+) {
+  editQuestion(quesId: $quesId, title: $title, body: $body, tags: $tags) {
+    ...QuestionDetails
+  }
+}
+
+mutation removeQuestion($quesId: ID!) {
+  deleteQuestion(quesId: $quesId)
+}
+
+mutation submitQuesVote($quesId: ID!, $voteType: VoteType!) {
+  voteQuestion(quesId: $quesId, voteType: $voteType) {
+    id
+    voted
+    points
+  }
+}
+
+mutation addComment(
+  $parentId: ID!
+  $parentType: CommentParentType!
+  $body: String!
+) {
+  addComment(parentId: $parentId, body: $body, parentType: $parentType) {
+    ...CommentDetails
+  }
+}
+
+mutation editComment($commentId: ID!, $body: String!) {
+  editComment(commentId: $commentId, body: $body) {
+    ...CommentDetails
+  }
+}
+
+mutation deleteComment($commentId: ID!) {
+  deleteComment(commentId: $commentId)
+}
+
+mutation addAnswer($quesId: ID!, $body: String!) {
+  postAnswer(quesId: $quesId, body: $body) {
+    ...AnswerDetails
+  }
+}
+mutation updateAnswer($quesId: ID!, $ansId: ID!, $body: String!) {
+  editAnswer(quesId: $quesId, ansId: $ansId, body: $body) {
+    ...AnswerDetails
+  }
+}
+mutation removeAnswer($quesId: ID!, $ansId: ID!) {
+  deleteAnswer(quesId: $quesId, ansId: $ansId)
+}
+mutation submitAnsVote($quesId: ID!, $ansId: ID!, $voteType: VoteType!) {
+  voteAnswer(quesId: $quesId, ansId: $ansId, voteType: $voteType) {
+    id
+    voted
+    points
+  }
+}
+mutation submitAcceptAns($quesId: ID!, $ansId: ID!) {
+  acceptAnswer(quesId: $quesId, ansId: $ansId) {
+    id
+    acceptedAnswer
+  }
+}
