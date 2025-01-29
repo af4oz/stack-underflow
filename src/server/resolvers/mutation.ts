@@ -283,6 +283,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           // comments: {}, // TODO: Add this relation
           author: {
             select: {
+              id: true,
               username: true,
             },
           },
@@ -291,6 +292,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
               // comments: {}, // TODO: Add this relation
               author: {
                 select: {
+                  id: true,
                   username: true,
                 },
               },
@@ -430,6 +432,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           // comments: {}, // TODO: Add this relation
           author: {
             select: {
+              id: true,
               username: true,
             },
           },
@@ -438,6 +441,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
               // comments: {}, // TODO: Add this relation
               author: {
                 select: {
+                  id: true,
                   username: true,
                 },
               },
@@ -629,6 +633,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
             include: {
               author: {
                 select: {
+                  id: true,
                   username: true,
                 },
               },
@@ -771,6 +776,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           // comments: {}, // TODO: Add this relation
           author: {
             select: {
+              id: true,
               username: true,
             },
           },

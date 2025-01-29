@@ -11,8 +11,8 @@ const config: CodegenConfig = {
   documents: "./src/lib/graphql/**/*.graphql",
   generates: {
     "./src/lib/__generated__/graphql.tsx": {
-      // preset: "client", // TODO: use this instead of below plugins
-      plugins: ['typescript','typescript-operations', 'typescript-react-apollo'],
+      // preset: "client-preset", // TODO: use this instead of below plugins
+      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
       config: {
         withHooks: true,
       }

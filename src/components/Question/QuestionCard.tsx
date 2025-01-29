@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { MiniPostedBy } from '../PostedBy'
 import tw from 'twin.macro' //eslint-disable-line no-unused-vars
-import { Question as IQuestion } from '../~~/lib/__generated__/graphql'
+import { Question as IQuestion } from '~~/lib/__generated__/graphql'
 
 import Tag from '../my-mui/Tag'
 

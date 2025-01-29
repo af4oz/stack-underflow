@@ -1,5 +1,5 @@
 import tw, { styled, css } from 'twin.macro'
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, Ref, RefObject } from 'react'
 import Link from 'next/link'
 
 type MenuItemStyledProps = {
@@ -28,14 +28,14 @@ const MenuItem = React.forwardRef<HTMLElement, MenuItemProps<any>>(
     if (tag === 'a') {
       return (
         <Link href={href} passHref>
-          <a ref={ref} {...rest}>
+          <a ref={ref as RefObject<HTMLAnchorElement>} {...rest}>
             <MenuItemStyled selected={selected}>{children}</MenuItemStyled>
           </a>
         </Link>
       )
     }
     return (
-      <MenuItemStyled selected={selected} ref={ref} {...rest}>
+      <MenuItemStyled selected={selected} ref={ref as RefObject<HTMLDivElement>} {...rest}>
         {children}
       </MenuItemStyled>
     )

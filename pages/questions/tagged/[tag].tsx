@@ -17,12 +17,15 @@ import Link from 'next/link'
 import RightSidePanel from '~~/components/Layout/RightSidePanel/dynamic'
 import getMainLayout from '~~/components/Layout/getMainLayout'
 import { GetServerSidePropsContext } from 'next'
-import { fetchGraphql } from '~~/lib/server/fetch'
-import { getGqlString } from '~~/utils/graphql'
+// import { fetchGraphql } from '~~/lib/server/fetch'
+// import { getGqlString } from '~~/utils/graphql'
 import Pagination from '~~/components/Pagination'
 import SEO from '~~/components/SEO'
 import { getPageTitleBasedOnSortBy } from '~~/utils'
 import { backendUrl } from '~~/constants'
+import { ApolloCache } from '@apollo/client'
+import { initializeApollo } from '~~/lib/apollo'
+import prisma from '~~/server/prisma'
 
 const QuestionListContainer = styled.div`
   ${tw`relative w-full mx-1 mt-6 sm:mx-3 `}
@@ -48,6 +51,7 @@ interface HomeMainProps {
   data: FetchQuestionsQuery['getQuestions']
 }
 export const HomeMain = ({ data }: HomeMainProps) => {
+  console.log(data)
   const { user } = useAuthContext()
   const { totalCount, currentPage, pageSize, tag = '', sortBy } = data
 
@@ -120,12 +124,12 @@ export async function getServerSideProps({
   query,
   params,
 }: GetServerSidePropsContext) {
-  const queryString = getGqlString(FetchQuestionsDocument)
-  if (!queryString) {
-    return {
-      props: {},
-    }
-  }
+  // const queryString = getGqlString(FetchQuestionsDocument)
+  // if (!queryString) {
+  //   return {
+  //     props: {},
+  //   }
+  // }
   const sortBy = (
     isValidTab(query.tab as string) ? query.tab : validTabs[0]
   ) as QuestionSortBy
@@ -133,22 +137,26 @@ export async function getServerSideProps({
   const tag = params?.tag ? (params?.tag as string) : undefined
 
   try {
-    const data = await fetchGraphql<
-      FetchQuestionsQuery,
-      FetchQuestionsQueryVariables
-    >(queryString, {
-      sortBy,
-      page,
-      limit: 12,
-      filterByTag: tag,
-    })
+    const apolloClient = initializeApollo(null, { prisma });
+    const {data} = await apolloClient.query<{data: FetchQuestionsQuery['getQuestions']}>(
+      {
+        query: FetchQuestionsDocument,
+        variables: {
+          sortBy,
+          page,
+          limit: 12,
+          filterByTag: tag,
+        }
+      }
+    )
 
     return {
       props: {
-        data: data.getQuestions,
+        data: data.data
       }, // will be passed to the page component as props
     }
   } catch (err) {
+    console.error(err)
     return {
       props: {
         data: {},

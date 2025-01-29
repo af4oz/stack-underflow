@@ -13,7 +13,7 @@ import {
   useAddCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-} from '../~~/lib/__generated__/graphql'
+} from '~~/lib/__generated__/graphql'
 import TextField from '../my-mui/TextField'
 import Divider from '../my-mui/Divider'
 import { useAppContext } from '~~/context/state'

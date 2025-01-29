@@ -10,7 +10,7 @@ import { IoMdPower as PowerIcon } from 'react-icons/io'
 import { MdKeyboardArrowDown as ArrowDownIcon } from 'react-icons/md'
 
 import tw from 'twin.macro' // eslint-disable-line no-unused-vars
-import { Author } from '../~~/lib/__generated__/graphql'
+import { Author } from '~~/lib/__generated__/graphql'
 import LoadingSpinner from '../LoadingSpinner'
 
 const Menu = dynamic(() => import('../my-mui/Menu'), {

@@ -4,9 +4,10 @@ import gql from "graphql-tag";
 import resolvers from "src/server/resolvers";
 import typeDefs from "src/server/schema";
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
+import prisma from "~~/server/prisma";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 const schema = createSchema({
   typeDefs: gql(typeDefs),

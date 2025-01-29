@@ -26,7 +26,7 @@ const Tag = React.forwardRef<HTMLElement, TagProps<any>>(function Tag(
   if (href) {
     tag = (
       <Link href={href} passHref>
-        <a {...rest} ref={ref} css={[tw`no-underline`, styles && styles.link]}>
+        <a {...rest} ref={ref as any} css={[tw`no-underline`, styles && styles.link]}>
           <span css={[tagStyles, styles && styles.tag]}>
             <span tw="block max-width[15ch] truncate">{label}</span>
           </span>

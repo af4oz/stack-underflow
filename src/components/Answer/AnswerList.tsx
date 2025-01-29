@@ -1,8 +1,8 @@
 import * as React from 'react'
 import 'twin.macro' // eslint-disable-line no-unused-vars
-import { Question } from '../~~/lib/__generated__/graphql'
+import { Question } from '~~/lib/__generated__/graphql'
 import { AnsSortBy } from '../../types'
-import sortAnswers from '../~~/utils/sortAnswers'
+import sortAnswers from '~~/utils/sortAnswers'
 import SortAnsBar from '../Buttons/SortAnsTabGroup'
 import Divider from '../my-mui/Divider'
 import AnswerDetails from './AnswerDetails'

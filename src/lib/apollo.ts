@@ -1,19 +1,33 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { useMemo } from "react";
 import {
   ApolloClient,
   InMemoryCache,
   NormalizedCacheObject,
+  from,
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context'
 import resolvers from "../server/resolvers";
 import typeDefs from "../server/schema";
+import storage from '~~/utils/localStorage';
+import type { PrismaClient } from "@prisma/client";
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 export type ResolverContext = {
   req?: IncomingMessage;
   res?: ServerResponse;
+  prisma?: PrismaClient
 };
+
+const authLink = setContext(() => {
+  const loggedUser = storage.loadUser()
+
+  return {
+    headers: {
+      authorization: loggedUser ? loggedUser.token : null,
+    },
+  }
+})
 
 function createIsomorphLink(context: ResolverContext = {}) {
   if (typeof window === "undefined") {
@@ -27,10 +41,10 @@ function createIsomorphLink(context: ResolverContext = {}) {
     return new SchemaLink({ schema, context });
   } else {
     const { HttpLink } = require("@apollo/client");
-    return new HttpLink({
+    return from([authLink, new HttpLink({
       uri: "/api/graphql",
       credentials: "same-origin",
-    });
+    })]);
   }
 }
 function createApolloClient(context?: ResolverContext) {

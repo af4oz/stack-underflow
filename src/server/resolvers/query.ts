@@ -93,7 +93,7 @@ const queryResolvers: Resolvers["Query"] = {
           ...sortQuery,
         },
         take: limit,
-        skip: limit * (page - 1),
+        skip: limit * Math.max((page - 1), 0),
         include: {
           _count: {
             select: {
@@ -102,6 +102,7 @@ const queryResolvers: Resolvers["Query"] = {
           },
           author: {
             select: {
+              id: true,
               username: true,
             },
           },
@@ -144,6 +145,7 @@ const queryResolvers: Resolvers["Query"] = {
           // comments: {}, // TODO: Add this relation
           author: {
             select: {
+              id: true,
               username: true,
             },
           },
@@ -152,6 +154,7 @@ const queryResolvers: Resolvers["Query"] = {
               // comments: {}, // TODO: Add this relation
               author: {
                 select: {
+                  id: true,
                   username: true,
                 },
               },

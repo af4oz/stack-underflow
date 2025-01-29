@@ -6,7 +6,7 @@ import LoadingSpinner from "~~/components/LoadingSpinner";
 import { formatDateAgo, getErrorMsg } from "~~/utils/helperFuncs";
 
 import tw from "twin.macro";
-import { Question, useFetchQuestionLazyQuery } from "../~~/lib/__generated__/graphql";
+import { Question, useFetchQuestionLazyQuery } from "~~/lib/__generated__/graphql";
 import { ButtonLikeAnchor } from "~~/components/my-mui/Misc";
 import Divider from "~~/components/my-mui/Divider";
 import { Container } from "~~/components/Layout";

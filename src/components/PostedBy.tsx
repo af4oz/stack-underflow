@@ -11,8 +11,8 @@ interface PostedByProps {
   username: string
   userId: string
   postType?: 'asked' | 'answered'
-  createdAt?: Scalars['DateTime']
-  updatedAt?: Scalars['DateTime']
+  createdAt?: Date
+  updatedAt?: Date
 }
 export const PostedBy = ({
   username,
