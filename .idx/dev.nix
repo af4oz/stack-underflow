@@ -4,6 +4,7 @@
     pkgs.nodejs_20
     pkgs.nodePackages.npm
     pkgs.openssl
+    pkgs.docker
     pkgs.docker-compose
   ];
   services = {
