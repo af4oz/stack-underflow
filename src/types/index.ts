@@ -1,4 +1,4 @@
-import { QuestionSortBy } from '../generated/graphql'
+import { QuestionSortBy } from '~~/lib/__generated__/graphql'
 
 export type AnsSortBy = 'VOTES' | 'NEWEST' | 'OLDEST'
 

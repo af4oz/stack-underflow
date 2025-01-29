@@ -12,7 +12,7 @@ import { Button, StyledAnchor } from "~~/components/my-mui/Misc";
 import {
   useAddQuestionMutation,
   useUpdateQuestionMutation,
-} from "~~/generated/graphql";
+} from "~~/lib/__generated__/graphql";
 import { Container } from "~~/components/Layout";
 import { getValidation } from "~~/utils";
 import RightSidePanel from "~~/components/Layout/RightSidePanel/dynamic";
@@ -65,7 +65,7 @@ const AskQuestionMain = () => {
     addQuestion({
       variables: { title, body, tags },
       update: (_, { data }) => {
-        router.push(`/questions/${data?.postQuestion._id}`);
+        router.push(`/questions/${data?.postQuestion.id}`);
         reset();
         notify("Question posted!");
       },
@@ -78,7 +78,7 @@ const AskQuestionMain = () => {
     updateQuestion({
       variables: { quesId: editingQuestion.quesId, title, body, tags },
       update: (_, { data }) => {
-        router.push(`/questions/${data?.editQuestion._id}`);
+        router.push(`/questions/${data?.editQuestion.id}`);
         clearEdit();
         notify("Edit successful!");
       },

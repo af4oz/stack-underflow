@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { MiniPostedBy } from '../PostedBy'
 import tw from 'twin.macro' //eslint-disable-line no-unused-vars
-import { Question as IQuestion } from '../../generated/graphql'
+import { Question as IQuestion } from '../~~/lib/__generated__/graphql'
 
 import Tag from '../my-mui/Tag'
 
@@ -19,7 +19,7 @@ interface QuesCardProps {
 
 const QuestionCard = ({ question }: QuesCardProps) => {
   const {
-    _id,
+    id,
     title,
     author,
     body,
@@ -45,7 +45,7 @@ const QuestionCard = ({ question }: QuesCardProps) => {
       </StatsContainer>
       <QuestionContainer>
         <Question>
-          <Link href={`/questions/${_id}`} passHref>
+          <Link href={`/questions/${id}`} passHref>
             <a tw="no-underline text-blue-600 font-normal hover:text-blue-800 text-lg">
               {title}
             </a>
@@ -68,7 +68,7 @@ const QuestionCard = ({ question }: QuesCardProps) => {
           <div tw="ml-auto flex items-center justify-end text-sm">
             <MiniPostedBy
               username={author.username}
-              userId={author._id}
+              userId={author.id}
               createdAt={createdAt}
             />
           </div>

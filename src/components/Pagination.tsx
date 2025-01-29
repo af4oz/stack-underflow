@@ -2,7 +2,7 @@
 import { UsePaginationProps, usePagination, DOTS } from '~~/hooks/usePagination'
 import { styled } from 'twin.macro'
 import Link from 'next/link'
-import { QuestionSortBy } from '~~/generated/graphql'
+import { QuestionSortBy } from '~~/lib/__generated__/graphql'
 
 const PaginationList = styled.ul`
   display: flex;
@@ -99,7 +99,7 @@ const Pagination = (props: PaginationProps) => {
       {/* Left navigation arrow */}
       <PaginationListItem
         className={currentPage === 1 ? 'disabled' : ''}
-        // onClick={onPrevious}
+      // onClick={onPrevious}
       >
         <Link href={`/?tab=${tab}?page=${1}`}>1</Link>
       </PaginationListItem>
@@ -121,7 +121,7 @@ const Pagination = (props: PaginationProps) => {
           <PaginationListItem
             className={pageNumber === currentPage ? 'selected' : ''}
             key={pageNumber}
-            // onClick={() => onPageChange(pageNumber)}
+          // onClick={() => onPageChange(pageNumber)}
           >
             <Link href={`/?tab=${tab}?page=${pageNumber}`}>{pageNumber}</Link>
           </PaginationListItem>
@@ -130,7 +130,7 @@ const Pagination = (props: PaginationProps) => {
       {/*  Right Navigation arrow */}
       <PaginationListItem
         className={currentPage === lastPage ? 'disabled' : ''}
-        // onClick={onNext}
+      // onClick={onNext}
       >
         <Link href={`/?tab=${tab}?page=${lastPage}`}>{lastPage}</Link>
         <div className="arrow right" />

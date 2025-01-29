@@ -15,7 +15,7 @@ import {
   useSubmitAnsVoteMutation,
   useUpdateAnswerMutation,
   VoteType,
-} from '~~/generated/graphql'
+} from '~~/lib/__generated__/graphql'
 import { getErrorMsg } from '~~/utils/helperFuncs'
 import AuthFormOnButton from '../Auth/AuthFormOnButton'
 import AcceptAnswerButton from '../Buttons/AcceptAnswer'
@@ -41,7 +41,7 @@ function AnswerDetails({
   questionAuthor,
 }: AnswerDetailsProps) {
   const {
-    _id: ansId,
+    id: ansId,
     author,
     body,
     comments,
@@ -102,7 +102,7 @@ function AnswerDetails({
         __typename: 'Mutation',
         voteAnswer: {
           __typename: 'Answer',
-          _id: ansId,
+          id: ansId,
           voted: voteType,
           points: calcPoints(voteType, points),
         },
@@ -129,7 +129,7 @@ function AnswerDetails({
         })
 
         const filteredAnswers = dataInCache?.viewQuestion.answers.filter(
-          (c) => c?._id !== data?.deleteAnswer
+          (c) => c?.id !== data?.deleteAnswer
         )
 
         const updatedData = {
@@ -153,7 +153,7 @@ function AnswerDetails({
       variables: { quesId, ansId },
       optimisticResponse: {
         acceptAnswer: {
-          _id: quesId,
+          id: quesId,
           acceptedAnswer: acceptedAnswer === ansId ? null : ansId,
           __typename: 'Question',
         },
@@ -204,7 +204,7 @@ function AnswerDetails({
         ) : (
           <AuthFormOnButton buttonType="downvote" />
         )}
-        {user && user._id === questionAuthor?._id && (
+        {user && user.id === questionAuthor?.id && (
           <AcceptAnswerButton
             checked={acceptedAnswer === ansId}
             handleAcceptAns={acceptAnswer!}
@@ -246,7 +246,7 @@ function AnswerDetails({
         <div tw="flex flex-row flex-wrap justify-between gap-2 my-5">
           {!isEditOpen && (
             <div tw="inline-block mr-2">
-              {user && user._id === author._id && (
+              {user && user.id === author.id && (
                 <>
                   <LightButton tw="mr-1" onClick={() => setEditOpen(true)}>
                     Edit
@@ -266,7 +266,7 @@ function AnswerDetails({
           )}
           <PostedBy
             username={author.username}
-            userId={author._id}
+            userId={author.id}
             createdAt={createdAt}
             updatedAt={updatedAt}
             postType="answered"

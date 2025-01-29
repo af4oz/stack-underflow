@@ -1,6 +1,6 @@
 import tw from 'twin.macro'
 import { useAppContext } from '~~/context/state'
-import { useFetchAllTagsQuery } from '~~/generated/graphql'
+import { useFetchAllTagsQuery } from '~~/lib/__generated__/graphql'
 import { getErrorMsg } from '~~/utils/helperFuncs'
 import LoadingSpinner from '../../LoadingSpinner'
 import { TagWithCount, Tags } from '../../Tags'
@@ -31,7 +31,7 @@ const __RightSidePanel = () => {
             {data.getAllTags.tags.map((t) => (
               <TagWithCount
                 label={t.name}
-                key={t._id}
+                key={t.id}
                 // `/` is needed because only `pages/index` handles these query param changes
                 href={`/questions/tagged/${t.name}`}
                 count={t?.questionCount}

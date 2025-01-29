@@ -12,7 +12,7 @@ import Avatar from '../my-mui/Avatar'
 import { SvgIcon } from '../my-mui/Misc'
 
 import 'twin.macro'
-import { Author } from '~~/generated/graphql'
+import { Author } from '~~/lib/__generated__/graphql'
 import LoadingSpinner from '../LoadingSpinner'
 
 const Menu = dynamic(() => import('../my-mui/Menu'), {
@@ -53,7 +53,7 @@ const UserMenuMobile = ({ user, logoutUser }: MobileUserMenuProps) => {
           <Avatar
             to={`/user/${user.username}`}
             alt={user.username}
-            src={`https://secure.gravatar.com/avatar/${user._id}?s=164&d=identicon`}
+            src={`https://secure.gravatar.com/avatar/${user.id}?s=164&d=identicon`}
             tw="width[1.2em] height[1.2em] font-size[.8em]"
           />
         ) : null}

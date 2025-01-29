@@ -9,7 +9,7 @@ import {
   useRemoveQuestionMutation,
   useSubmitQuesVoteMutation,
   VoteType,
-} from '~~/generated/graphql'
+} from '~~/lib/__generated__/graphql'
 import { calcPoints } from '~~/utils'
 import { getErrorMsg } from '~~/utils/helperFuncs'
 import AuthFormOnButton from '../Auth/AuthFormOnButton'
@@ -26,7 +26,7 @@ interface QuestionDetailsProps {
 
 function QuestionDetails({ data }: QuestionDetailsProps) {
   const {
-    _id: quesId,
+    id: quesId,
     author,
     body,
     title,
@@ -60,7 +60,7 @@ function QuestionDetails({ data }: QuestionDetailsProps) {
         __typename: 'Mutation',
         voteQuestion: {
           __typename: 'Question',
-          _id: quesId,
+          id: quesId,
           points: calcPoints(voteType, points),
           voted: voteType,
         },
@@ -130,7 +130,7 @@ function QuestionDetails({ data }: QuestionDetailsProps) {
             ))}
         </ul>
         <div tw="flex flex-row flex-wrap justify-between gap-2 my-5">
-          {user && user._id === author._id && (
+          {user && user.id === author.id && (
             <div tw="inline-block mr-2">
               <LightButton tw="mr-1" onClick={editQuestion}>
                 Edit
@@ -148,7 +148,7 @@ function QuestionDetails({ data }: QuestionDetailsProps) {
           )}
           <PostedBy
             username={author.username}
-            userId={author._id}
+            userId={author.id}
             createdAt={createdAt}
             updatedAt={updatedAt}
             postType={'asked'}

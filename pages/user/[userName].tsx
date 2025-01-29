@@ -6,7 +6,7 @@ import { formatDateAgo, getErrorMsg } from "~~/utils/helperFuncs";
 
 import tw, { styled } from "twin.macro";
 import Divider from "~~/components/my-mui/Divider";
-import { useFetchUserLazyQuery, User } from "~~/generated/graphql";
+import { useFetchUserLazyQuery, User } from "~~/lib/__generated__/graphql";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import getMainLayout from "~~/components/Layout/getMainLayout";
@@ -56,7 +56,7 @@ const UserPageMain = () => {
   }
 
   const {
-    _id,
+    id,
     username: fetchedUserName,
     createdAt,
     rep,
@@ -71,7 +71,7 @@ const UserPageMain = () => {
       <SEO title={`User ${userName} - Stack Underflow`} />
       <UserAvatar>
         <Image
-          src={`https://secure.gravatar.com/avatar/${_id}?s=164&d=identicon`}
+          src={`https://secure.gravatar.com/avatar/${id}?s=164&d=identicon`}
           alt={fetchedUserName}
           layout="fill"
           tw="rounded-md"
@@ -105,7 +105,7 @@ const UserPageMain = () => {
             <Divider />
             {recentQuestions.length !== 0 ? (
               recentQuestions.map((q) => (
-                <div key={q?._id}>
+                <div key={q?.id}>
                   <RecentQuestions creedo={q!} />
                   <Divider tw="border-[hsl(210,8%,90%)]" />
                 </div>
@@ -119,7 +119,7 @@ const UserPageMain = () => {
             <Divider />
             {recentAnswers.length !== 0 ? (
               recentAnswers.map((q) => (
-                <div key={q?._id}>
+                <div key={q?.id}>
                   <RecentQuestions creedo={q!} />
                   <Divider tw="border-[hsl(210,8%,90%)]" />
                 </div>

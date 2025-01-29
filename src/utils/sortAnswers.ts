@@ -1,4 +1,4 @@
-import { Question } from '../generated/graphql'
+import { Question } from '~~/lib/__generated__/graphql'
 
 const sortAnswers = (
   sortBy: string,
@@ -19,9 +19,9 @@ const sortAnswers = (
         new Date(b?.createdAt).valueOf() - new Date(a?.createdAt).valueOf()
     )
   } else {
-    const accepted = answers.find((a) => a?._id === acceptedAnswer)
+    const accepted = answers.find((a) => a?.id === acceptedAnswer)
     const restSorted = answers
-      .filter((a) => a?._id !== acceptedAnswer)
+      .filter((a) => a?.id !== acceptedAnswer)
       .sort((a, b) => b!.points - a!.points)
 
     if (accepted) {

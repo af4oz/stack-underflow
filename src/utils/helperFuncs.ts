@@ -2,11 +2,11 @@ import { ApolloError } from '@apollo/client'
 import { formatDistanceToNowStrict, format } from 'date-fns'
 import React from 'react'
 
-export const filterDuplicates = <T extends { _id: string }>(
+export const filterDuplicates = <T extends { id: string }>(
   originalArr: T[],
   arrToConcat: T[]
 ) => {
-  return arrToConcat.filter((a) => !originalArr.find((o) => o._id === a._id))
+  return arrToConcat.filter((a) => !originalArr.find((o) => o.id === a.id))
 }
 
 export const formatDateAgo = (date: string | number | Date) => {

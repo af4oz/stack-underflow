@@ -1,7 +1,7 @@
 import * as React from "react";
-import { MutationEditQuestionArgs } from "~~/generated/graphql";
-import createCtx from "../utils/createCtx";
-import storage from "../utils/localStorage";
+import { MutationEditQuestionArgs } from "~~/lib/__generated__/graphql";
+import createCtx from "~~/utils/createCtx";
+import storage from "~~/utils/localStorage";
 
 interface IAppContext {
   editingQuestion: MutationEditQuestionArgs;

@@ -7,7 +7,7 @@ import Tag from '~~/components/my-mui/Tag'
 import TextField from '~~/components/my-mui/TextField'
 import LoadingSpinner from '~~/components/LoadingSpinner'
 import { useAppContext } from '~~/context/state'
-import { useFetchAllTagsQuery } from '~~/generated/graphql'
+import { useFetchAllTagsQuery } from '~~/lib/__generated__/graphql'
 import { getErrorMsg } from '~~/utils/helperFuncs'
 import getMainLayout from '~~/components/Layout/getMainLayout'
 import SEO from '~~/components/SEO'
@@ -63,7 +63,7 @@ const AllTagsMain = () => {
               t.name.toLowerCase().includes(filterInput.toLowerCase())
             )
             .map((t) => (
-              <TagContainer key={t._id}>
+              <TagContainer key={t.id}>
                 <Tag
                   tag="a"
                   label={t.name}

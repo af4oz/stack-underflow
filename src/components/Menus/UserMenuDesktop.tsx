@@ -10,7 +10,7 @@ import { IoMdPower as PowerIcon } from 'react-icons/io'
 import { MdKeyboardArrowDown as ArrowDownIcon } from 'react-icons/md'
 
 import tw from 'twin.macro' // eslint-disable-line no-unused-vars
-import { Author } from '../../generated/graphql'
+import { Author } from '../~~/lib/__generated__/graphql'
 import LoadingSpinner from '../LoadingSpinner'
 
 const Menu = dynamic(() => import('../my-mui/Menu'), {
@@ -48,7 +48,7 @@ const UserMenuDesktop = ({ user, logoutUser }: UserMenuDesktopProps) => {
             <Avatar
               to={`/user/${user.username}`}
               alt={user.username}
-              src={`https://secure.gravatar.com/avatar/${user._id}?s=164&d=identicon`}
+              src={`https://secure.gravatar.com/avatar/${user.id}?s=164&d=identicon`}
               styles={{
                 avatarRoot: tw`width[1.5em] height[1.5em]`,
               }}

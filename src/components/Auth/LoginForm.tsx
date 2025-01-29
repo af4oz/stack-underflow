@@ -12,7 +12,7 @@ import { useAppContext } from '~~/context/state'
 import {
   LoginUserMutationVariables,
   useLoginUserMutation,
-} from '~~/generated/graphql'
+} from '~~/lib/__generated__/graphql'
 import { getErrorMsg } from '~~/utils/helperFuncs'
 import { Button, AnchorLikeButton, SvgIcon } from '../my-mui/Misc'
 import TextField from '../my-mui/TextField'

@@ -1,4 +1,4 @@
-import { Author } from "~~/generated/graphql";
+import { Author } from "~~/lib/__generated__/graphql";
 
 const storageKeyToken = "sofCloneUserKey";
 const storageKeyDarkMode = "sofCloneDarkMode";

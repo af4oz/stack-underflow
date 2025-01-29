@@ -1,4 +1,4 @@
-import { Question } from '~~/generated/graphql'
+import { Question } from '~~/lib/__generated__/graphql'
 import AnswerForm from '../Answer/AnswerForm'
 import AnswerList from '../Answer/AnswerList'
 import QuestionDetails from './QuestionDetails'
@@ -14,12 +14,12 @@ const QuestionPageContent = ({ data }: QuesPageContentProps) => {
     <div>
       <QuestionDetails data={question} />
       <AnswerList
-        quesId={question._id}
+        quesId={question.id}
         answers={answers}
         acceptedAnswer={question.acceptedAnswer}
         quesAuthor={question.author}
       />
-      <AnswerForm quesId={question._id} tags={question.tags} />
+      <AnswerForm quesId={question.id} tags={question.tags} />
     </div>
   )
 }

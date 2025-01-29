@@ -1,6 +1,6 @@
 import * as React from "react";
-import createCtx from "../utils/createCtx";
-import storage from "../utils/localStorage";
+import createCtx from "~~/utils/createCtx";
+import storage from "~~/utils/localStorage";
 
 interface IAuthContext {
   user: any;

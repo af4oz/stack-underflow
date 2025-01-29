@@ -1,7 +1,7 @@
 import 'twin.macro'
 import React from 'react'
 import { TabGroupItem, TabGroup } from '../my-mui/Misc'
-import { QuestionSortBy } from '~~/generated/graphql'
+import { QuestionSortBy } from '~~/lib/__generated__/graphql'
 import Link from 'next/link'
 
 interface SortQuesBarProps {

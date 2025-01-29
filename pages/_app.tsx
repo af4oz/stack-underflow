@@ -1,4 +1,4 @@
-import "~~/app.css";
+import "~~/styles/app.css";
 import GlobalStyles from "~~/styles/GlobalStyles";
 import type { AppProps } from "next/app";
 import DefaultLayout from "~~/components/Layout/Default";
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const apolloClient = useApollo(
     typeof window !== "undefined"
       ? // @ts-ignore
-        JSON.parse(window.__APOLLO_STATE__ ?? "{}")
+      JSON.parse(window.__APOLLO_STATE__ ?? "{}")
       : {}
   );
 

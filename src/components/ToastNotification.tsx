@@ -1,4 +1,4 @@
-import { useAppContext } from '../context/state'
+import { useAppContext } from '~~/context/state'
 import Alert from './my-mui/Alert'
 import { Snackbar } from './my-mui/Snackbar'
 

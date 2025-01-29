@@ -13,7 +13,7 @@ import {
   useAddCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
-} from '../../generated/graphql'
+} from '../~~/lib/__generated__/graphql'
 import TextField from '../my-mui/TextField'
 import Divider from '../my-mui/Divider'
 import { useAppContext } from '~~/context/state'
@@ -84,7 +84,7 @@ const CommentSection = ({
             }
           } else if (parentType === CommentParentType.Answer) {
             const targetAnswer = dataInCache?.viewQuestion.answers.find(
-              (a) => a?._id === parentId
+              (a) => a?.id === parentId
             )
             const updatedComments = [
               ...(targetAnswer?.comments ?? []),
@@ -92,7 +92,7 @@ const CommentSection = ({
             ]
 
             const updatedAnswers = dataInCache?.viewQuestion.answers.map((a) =>
-              a?._id === parentId ? { ...a, comments: updatedComments } : a
+              a?.id === parentId ? { ...a, comments: updatedComments } : a
             )
             updatedData = {
               ...dataInCache?.viewQuestion,
@@ -142,7 +142,7 @@ const CommentSection = ({
           let updatedData
           if (parentType === CommentParentType.Question) {
             const filteredComments = dataInCache?.viewQuestion?.comments.filter(
-              (comment) => comment?._id !== commentId
+              (comment) => comment?.id !== commentId
             )
             updatedData = {
               ...dataInCache?.viewQuestion,
@@ -150,13 +150,13 @@ const CommentSection = ({
             }
           } else if (parentType === CommentParentType.Answer) {
             const targetAnswer = dataInCache?.viewQuestion.answers.find(
-              (a) => a?._id === parentId
+              (a) => a?.id === parentId
             )
             const updatedComments = targetAnswer?.comments.filter(
-              (c) => c?._id !== data?.deleteComment
+              (c) => c?.id !== data?.deleteComment
             )
             const updatedAnswers = dataInCache?.viewQuestion.answers.map((a) =>
-              a?._id === parentId ? { ...a, comments: updatedComments } : a
+              a?.id === parentId ? { ...a, comments: updatedComments } : a
             )
             updatedData = {
               ...dataInCache?.viewQuestion,
@@ -194,7 +194,7 @@ const CommentSection = ({
     <div>
       {comments.length !== 0 && <Divider tw="border-[hsl(210,8%,90%)]" />}
       {visibleComments.map((c) => (
-        <div key={c?._id} tw="border-bottom[1px solid rgba(0,0,0,.08)]">
+        <div key={c?.id} tw="border-bottom[1px solid rgba(0,0,0,.08)]">
           <Comment
             comment={c!}
             user={user}

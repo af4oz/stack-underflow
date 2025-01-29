@@ -22,7 +22,7 @@ export const Button = styled.button(() => [
   baseButtonStyles,
   tw` bg-blue-600 hover:bg-blue-700 active:bg-blue-700 text-white`,
   buttonDisableStyles,
-])
+]);
 
 export const StyledAnchor = styled.a`
   text-decoration: none;

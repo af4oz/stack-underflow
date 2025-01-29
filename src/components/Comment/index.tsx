@@ -5,7 +5,7 @@ import { StyledAnchor, LightButton } from '../my-mui/Misc'
 import TextField from '../my-mui/TextField'
 
 import 'twin.macro'
-import { Author, Comment as IComment } from '~~/generated/graphql'
+import { Author, Comment as IComment } from '~~/lib/__generated__/graphql'
 import Link from 'next/link'
 
 interface CommentProps {
@@ -24,14 +24,14 @@ const Comment = ({ comment, user, onDelete, onEdit }: CommentProps) => {
   }, [comment])
 
   const handleDeleteComment = () => {
-    onDelete(comment._id)
+    onDelete(comment.id)
     setDeleteModalOpen(false)
   }
   const handleCommentEdit = (e: React.FormEvent) => {
     // prevent default form post submit actions
     e.preventDefault()
 
-    onEdit(editedCommentBody, comment._id)
+    onEdit(editedCommentBody, comment.id)
 
     // close form
     setEditOpen(false)
@@ -51,7 +51,7 @@ const Comment = ({ comment, user, onDelete, onEdit }: CommentProps) => {
               {comment.createdAt !== comment.updatedAt && '(edited)'}
             </span>
           </p>
-          {user && user._id === comment.author._id && (
+          {user && user.id === comment.author.id && (
             <>
               <LightButton tw="mr-1" onClick={() => setEditOpen(true)}>
                 Edit

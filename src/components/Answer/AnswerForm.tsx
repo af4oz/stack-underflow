@@ -12,7 +12,7 @@ import {
   FetchQuestionDocument,
   FetchQuestionQuery,
   useAddAnswerMutation,
-} from '../../generated/graphql'
+} from '../~~/lib/__generated__/graphql'
 import * as React from 'react'
 import { getValidation } from '~~/utils'
 import Link from 'next/link'

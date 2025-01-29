@@ -12,7 +12,7 @@ import {
   FetchQuestionsQueryVariables,
   Question,
   QuestionSortBy,
-} from '~~/generated/graphql'
+} from '~~/lib/__generated__/graphql'
 import Link from 'next/link'
 import RightSidePanel from '~~/components/Layout/RightSidePanel/dynamic'
 import getMainLayout from '~~/components/Layout/getMainLayout'
@@ -76,7 +76,7 @@ export const HomeMain = ({ data }: HomeMainProps) => {
         {data &&
           data.questions.length !== 0 &&
           data.questions.map((q) => (
-            <QuestionCard key={q?._id} question={q as Question} />
+            <QuestionCard key={q?.id} question={q as Question} />
           ))}
       </QuestionListBody>
       <Pagination

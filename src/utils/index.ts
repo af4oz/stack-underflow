@@ -24,17 +24,17 @@ export const getValidation = ({
     required: req ? `${name} is required` : undefined,
     minLength: min
       ? {
-          value: min,
-          message: `${name} cannot be less than ${min} ${itemType}`,
-        }
+        value: min,
+        message: `${name} cannot be less than ${min} ${itemType}`,
+      }
       : undefined,
     maxLength: max
       ? {
-          value: max,
-          message: `${name} cannot be more than ${max} ${itemType}`,
-        }
+        value: max,
+        message: `${name} cannot be more than ${max} ${itemType}`,
+      }
       : undefined,
-  } as RegisterOptions
+  }
 }
 
 export const usernameValidation = {
@@ -43,7 +43,7 @@ export const usernameValidation = {
     value: /^[a-zA-Z0-9-_]*$/,
     message: 'Only alphanum, dash & underscore characters are allowed',
   },
-} as RegisterOptions
+}
 
 export const range = (start: number, end: number) => {
   const len = Math.max(end - start, 0)

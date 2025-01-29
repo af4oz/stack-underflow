@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import LoadingSpinner from '../components/LoadingSpinner'
-import { useAppContext } from '../context/state'
-import { formatDateAgo, getErrorMsg } from '../utils/helperFuncs'
+import LoadingSpinner from '~~/components/LoadingSpinner'
+import { useAppContext } from '~~/context/state'
+import { formatDateAgo, getErrorMsg } from '~~/utils/helperFuncs'
 
 import { MdSearch as SearchIcon } from 'react-icons/md'
 import tw from 'twin.macro'
-import { StyledAnchor } from '../components/my-mui/Misc'
+import { StyledAnchor } from '~~/components/my-mui/Misc'
 import InputAdornment from '~~/components/my-mui/InputAdornment'
 import Avatar from '~~/components/my-mui/Avatar'
 import TextField from '~~/components/my-mui/TextField'
-import { useFetchAllUsersQuery } from '../generated/graphql'
+import { useFetchAllUsersQuery } from '~~/lib/__generated__/graphql'
 import { Container } from '~~/components/Layout'
 import getMainLayout from '~~/components/Layout/getMainLayout'
 import Link from 'next/link'
@@ -52,9 +52,9 @@ const UsersPageMain = () => {
               u.username.toLowerCase().includes(filterInput.toLowerCase())
             )
             .map((u) => (
-              <div key={u._id} css={[tw`flex m-1`]}>
+              <div key={u.id} css={[tw`flex m-1`]}>
                 <Avatar
-                  src={`https://secure.gravatar.com/avatar/${u._id}?s=164&d=identicon`}
+                  src={`https://secure.gravatar.com/avatar/${u.id}?s=164&d=identicon`}
                   alt={u.username}
                   to={`/user/${u.username}`}
                   tw="w-10 h-10"
