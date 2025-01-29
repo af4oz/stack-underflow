@@ -1,5 +1,5 @@
 import { RegisterOptions } from 'react-hook-form'
-import { QuestionSortBy, VoteType } from '~~/generated/graphql'
+import { QuestionSortBy, VoteType } from '~~/lib/__generated__/graphql'
 
 export const calcPoints = (voteType: VoteType, points: number) => {
   return voteType === VoteType.Upvote ? points + 1 : points > 0 ? points - 1 : 0
