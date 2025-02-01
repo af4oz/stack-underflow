@@ -39,6 +39,6 @@ npm run dev
 ```
 
 ## TODO
-
-1. Use transactions/others to ensure data consistency
-2. Add pagination to pages/users.tsx
+- Remove `Only alphanumeric characters & dash are allowed` on tags 🥲
+- Use transactions/others to ensure data consistency
+- Add pagination to pages/users.tsx and others
