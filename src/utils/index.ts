@@ -24,15 +24,15 @@ export const getValidation = ({
     required: req ? `${name} is required` : undefined,
     minLength: min
       ? {
-        value: min,
-        message: `${name} cannot be less than ${min} ${itemType}`,
-      }
+          value: min,
+          message: `${name} cannot be less than ${min} ${itemType}`,
+        }
       : undefined,
     maxLength: max
       ? {
-        value: max,
-        message: `${name} cannot be more than ${max} ${itemType}`,
-      }
+          value: max,
+          message: `${name} cannot be more than ${max} ${itemType}`,
+        }
       : undefined,
   }
 }
@@ -86,4 +86,8 @@ const validTabs = [
 ] as string[]
 export const isValidTab = (tab: string) => {
   return validTabs.includes(tab)
+}
+
+export const toJSON = (data: Object) => {
+  return JSON.parse(JSON.stringify(data))
 }

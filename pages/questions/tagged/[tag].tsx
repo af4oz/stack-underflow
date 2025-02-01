@@ -21,7 +21,7 @@ import { GetServerSidePropsContext } from 'next'
 // import { getGqlString } from '~~/utils/graphql'
 import Pagination from '~~/components/Pagination'
 import SEO from '~~/components/SEO'
-import { getPageTitleBasedOnSortBy } from '~~/utils'
+import { getPageTitleBasedOnSortBy, toJSON } from '~~/utils'
 import { backendUrl } from '~~/constants'
 import { ApolloCache } from '@apollo/client'
 import { initializeApollo } from '~~/lib/apollo'
@@ -51,7 +51,6 @@ interface HomeMainProps {
   data: FetchQuestionsQuery['getQuestions']
 }
 export const HomeMain = ({ data }: HomeMainProps) => {
-  console.log(data)
   const { user } = useAuthContext()
   const { totalCount, currentPage, pageSize, tag = '', sortBy } = data
 
@@ -138,7 +137,10 @@ export async function getServerSideProps({
 
   try {
     const apolloClient = initializeApollo(null, { prisma })
-    const { data } = await apolloClient.query<FetchQuestionsQuery>({
+    const { data } = await apolloClient.query<
+      FetchQuestionsQuery,
+      FetchQuestionsQueryVariables
+    >({
       query: FetchQuestionsDocument,
       variables: {
         sortBy,
@@ -150,7 +152,7 @@ export async function getServerSideProps({
 
     return {
       props: {
-        data: JSON.parse(JSON.stringify(data.getQuestions)),
+        data: toJSON(data.getQuestions),
       }, // will be passed to the page component as props
     }
   } catch (err) {

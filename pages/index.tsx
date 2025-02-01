@@ -22,8 +22,9 @@ import { GetServerSidePropsContext } from 'next'
 import Pagination from '~~/components/Pagination'
 import SEO from '~~/components/SEO'
 import { backendUrl } from '~~/constants'
-import { getPageTitleBasedOnSortBy, isValidTab } from '~~/utils'
+import { getPageTitleBasedOnSortBy, isValidTab, toJSON } from '~~/utils'
 import { initializeApollo } from '~~/lib/apollo'
+import prisma from '~~/server/prisma'
 
 const QuestionListContainer = styled.div`
   ${tw`relative w-full mx-1 mt-6 sm:mx-3 `}
@@ -104,23 +105,27 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   ) as QuestionSortBy
   const page = Number(query.page) || 1
   try {
-    const apolloClient = initializeApollo();
+    const apolloClient = initializeApollo(null, { prisma })
 
-    const { data } = await apolloClient.query({
+    const { data } = await apolloClient.query<
+      FetchQuestionsQuery,
+      FetchQuestionsQueryVariables
+    >({
       query: FetchQuestionsDocument,
       variables: {
         sortBy,
         page,
         limit: 12,
-      }
-    });
+      },
+    })
 
     return {
       props: {
-        data,
+        data: toJSON(data.getQuestions),
       }, // will be passed to the page component as props
     }
   } catch (err) {
+    console.error(err)
     return {
       props: {
         data: {},
