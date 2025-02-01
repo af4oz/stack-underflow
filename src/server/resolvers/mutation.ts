@@ -2,7 +2,6 @@ import { CommentParentType, Resolvers, VoteType } from "src/server/__generated__
 import { getChangedTags } from "src/server/utils";
 import authChecker from "src/server/utils/authChecker";
 import { JWT_SECRET } from "src/server/utils/config";
-import errorHandler from "src/server/utils/errorHandler";
 import {
   registerValidator,
   loginValidator,
@@ -11,13 +10,14 @@ import {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Context } from "./context";
+import { GraphQLError } from "graphql";
 
 const mutationResolvers: Resolvers["Mutation"] = {
   register: async (parent, { username, password }, c: Context) => {
     const { errors, valid } = registerValidator(username, password);
 
     if (!valid) {
-      throw new Error(Object.values(errors)[0] as string);
+      return Promise.reject(new GraphQLError(Object.values(errors)[0] as string));
     }
 
     const existingUser = await c.prisma.user.findUnique({
@@ -27,7 +27,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     });
 
     if (existingUser) {
-      throw new Error(`Username '${username}' is already taken.`);
+      return Promise.reject(new GraphQLError(`Username '${username}' is already taken.`));
     }
 
     const saltRounds = 10;
@@ -60,7 +60,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
     if (!valid) {
       // throw new UserInputError(Object.values(errors)[0], { errors });
-      throw new Error(Object.values(errors)[0]);
+      return Promise.reject(new GraphQLError(Object.values(errors)[0]));
     }
 
     const user = await c.prisma.user.findUnique({
@@ -70,7 +70,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     });
 
     if (!user) {
-      throw new Error(`User: '${username}' not found.`);
+      return Promise.reject(new GraphQLError(`User: '${username}' not found.`))
       // throw new UserInputError(`User: '${username}' not found.`);
     }
 
@@ -79,7 +79,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
     if (!credentialsValid) {
       // throw new UserInputError("Invalid credentials.");
-      throw new Error("Invalid credentials.");
+      return Promise.reject(new GraphQLError("Invalid credentials."))
     }
 
     const token = jwt.sign(
@@ -102,7 +102,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     const { errors, valid } = questionValidator(title, body, tags);
     if (!valid) {
       // throw new UserInputError(Object.values(errors)[0], { errors });
-      throw new Error(Object.values(errors)[0]);
+      return Promise.reject(new GraphQLError(Object.values(errors)[0]));
     }
 
     try {
@@ -116,7 +116,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `User with ID: ${loggedUser.id} does not exist!`
         // );
-        throw new Error(`User with ID: ${loggedUser.id} does not exist!`);
+        return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist!`));
       }
       const savedQues = await c.prisma.question.create({
         data: {
@@ -158,7 +158,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
       return savedQues as any; // TODO: Fix this type
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   deleteQuestion: async (parent, { quesId }, c: Context) => {
@@ -167,7 +167,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     try {
       const user = await c.prisma.user.findFirst(loggedUser.id);
       if (!user) {
-        throw new Error(`User with ID: ${loggedUser.id} does not exist!`);
+        return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist!`));
       }
       const question = await c.prisma.question.delete({
         where: {
@@ -176,11 +176,11 @@ const mutationResolvers: Resolvers["Mutation"] = {
       });
       if (!question) {
         // throw new UserInputError(`Question with ID: ${quesId} does not exist!`)
-        throw new Error(`Question with ID: ${quesId} does not exist!`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist!`));
       }
       if (question.authorId.toString() !== user.id.toString()) {
         // throw new ForbiddenError("You can not delete other's question!")
-        throw new Error("You can not delete other's question!");
+        return Promise.reject(new GraphQLError("You can not delete other's question!"));
       }
 
       // update tags collection
@@ -202,7 +202,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
       return quesId;
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   editQuestion: async (parent, { quesId, title, body, tags }, c: Context) => {
@@ -211,7 +211,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     const { errors, valid } = questionValidator(title, body, tags);
     if (!valid) {
       // throw new UserInputError(Object.values(errors)[0], { errors });
-      throw new Error(Object.values(errors)[0]);
+      return Promise.reject(new GraphQLError(Object.values(errors)[0]));
     }
 
     const updatedQuesObj = {
@@ -228,14 +228,10 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!question) {
-        // throw new UserInputError(
-        //   `Question with ID: ${quesId} does not exist!`
-        // );
-        throw new Error(`Question with ID: ${quesId} does not exist!`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist!`));
       }
       if (question.authorId.toString() !== loggedUser.id.toString()) {
-        // throw new ForbiddenError("You can not edit other's question!");
-        throw new Error("You can not edit other's question!");
+        return Promise.reject(new GraphQLError("You can not edit other's question!"));
       }
 
       const changedTags = getChangedTags(question.tags, tags);
@@ -302,11 +298,11 @@ const mutationResolvers: Resolvers["Mutation"] = {
       });
 
       if (!updatedQues) {
-        throw new Error(`something went wrong!`);
+        return Promise.reject(new GraphQLError(`something went wrong!`));
       }
       return updatedQues as any; // TODO: Fix this type;
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   voteQuestion: async (parent, { quesId, voteType }, c: Context) => {
@@ -324,7 +320,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `User with ID: ${loggedUser.id} does not exist!`
         // )
-        throw new Error(`User with ID: ${loggedUser.id} does not exist!`);
+        return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist!`));
       }
       const question = await c.prisma.question.findFirst({
         where: {
@@ -333,12 +329,12 @@ const mutationResolvers: Resolvers["Mutation"] = {
       });
       if (!question) {
         // throw new UserInputError(`Question with ID: ${quesId} does not exist!`)
-        throw new Error(`Question with ID: ${quesId} does not exist!`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist!`));
       }
 
       if (question.authorId.toString() === user.id.toString()) {
         // throw new ForbiddenError("You can't vote for your own post.")
-        throw new Error("You can't vote for your own post.");
+        return Promise.reject(new GraphQLError("You can't vote for your own post."));
       }
 
       const quesAuthor = await c.prisma.user.findFirst({
@@ -350,7 +346,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `User with ID: ${question.author} does not exist!`
         // )
-        throw new Error(`User with ID: ${question.authorId} does not exist!`);
+        return Promise.reject(new GraphQLError(`User with ID: ${question.authorId} does not exist!`));
       }
 
       const questionVote = await c.prisma.questionVotes.findFirst({
@@ -454,7 +450,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
       return updatedQues as any; // TODO: Fix this type;
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   postAnswer: async (parent, { quesId, body }, c: Context) => {
@@ -462,7 +458,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
     if (body.trim() === "" || body.length < 30) {
       // throw new UserInputError('Answer must be atleast 30 characters long.')
-      throw new Error("Answer must be atleast 30 characters long.");
+      return Promise.reject(new GraphQLError("Answer must be atleast 30 characters long."));
     }
 
     const user = await c.prisma.user.findFirst({
@@ -474,7 +470,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
       // throw new UserInputError(
       //   `User with ID: ${loggedUser.id} does not exist in DB.`
       // )
-      throw new Error(`User with ID: ${loggedUser.id} does not exist in DB.`);
+      return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist in DB.`));
     }
     const question = await c.prisma.question.findFirst({
       where: {
@@ -485,7 +481,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
       // throw new UserInputError(
       //   `Question with ID: ${quesId} does not exist in DB.`
       // )
-      throw new Error(`Question with ID: ${quesId} does not exist in DB.`);
+      return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist in DB.`));
     }
     await c.prisma.answer.create({
       data: {
@@ -538,7 +534,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `User with ID: ${loggedUser.id} does not exist in DB.`
         // )
-        throw new Error(`User with ID: ${loggedUser.id} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist in DB.`));
       }
       const question = await c.prisma.question.findFirst({
         where: {
@@ -549,7 +545,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `Question with ID: ${quesId} does not exist in DB.`
         // )
-        throw new Error(`Question with ID: ${quesId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist in DB.`));
       }
 
       const targetAnswer = await c.prisma.answer.findFirst({
@@ -558,12 +554,12 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!targetAnswer) {
-        throw new Error(`Answer with ID: '${ansId}' does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Answer with ID: '${ansId}' does not exist in DB.`));
       }
 
       if (targetAnswer.authorId.toString() !== user.id.toString()) {
         // throw new ForbiddenError("You can not delete other's answer.")
-        throw new Error("You can not delete other's answer.");
+        return Promise.reject(new GraphQLError("You can not delete other's answer."));
       }
 
       await c.prisma.answer.delete({
@@ -574,7 +570,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
       return ansId;
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   editAnswer: async (parent, { ansId, body, quesId }, c: Context) => {
@@ -582,7 +578,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
     if (body.trim() === "" || body.length < 30) {
       // throw new UserInputError('Answer must be atleast 30 characters long.')
-      throw new Error("Answer must be atleast 30 characters long.");
+      return Promise.reject(new GraphQLError("Answer must be atleast 30 characters long."));
     }
 
     try {
@@ -595,7 +591,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `Question with ID: ${quesId} does not exist in DB.`
         // )
-        throw new Error(`Question with ID: ${quesId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist in DB.`));
       }
 
       const answer = await c.prisma.answer.findFirst({
@@ -607,12 +603,12 @@ const mutationResolvers: Resolvers["Mutation"] = {
         // throw new UserInputError(
         //   `Answer with ID: ${ansId} does not exist in DB.`
         // )
-        throw new Error(`Answer with ID: ${ansId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Answer with ID: ${ansId} does not exist in DB.`));
       }
 
       if (answer.authorId.toString() !== loggedUser.id.toString()) {
         // throw new ForbiddenError("You can not edit other's answer.")
-        throw new Error("You can not edit other's answer.");
+        return Promise.reject(new GraphQLError("You can not edit other's answer."));
       }
       await c.prisma.answer.update({
         where: {
@@ -653,7 +649,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
 
       return populatedQues.answers as any; // TODO: Fix this type;
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   voteAnswer: async (parent, { ansId, voteType, quesId }, c: Context) => {
@@ -667,7 +663,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!user) {
-        throw new Error(`User with ID: ${loggedUser.id} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist in DB.`));
       }
       const question = await c.prisma.question.findFirst({
         where: {
@@ -675,17 +671,17 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!question) {
-        throw new Error(`Question with ID: ${quesId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist in DB.`));
       }
       const answer = await c.prisma.answer.findFirst({
         where: { id: ansId },
       });
       if (!answer) {
-        throw new Error(`Answer with ID: ${ansId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Answer with ID: ${ansId} does not exist in DB.`));
       }
 
       if (answer.authorId.toString() === user.id.toString()) {
-        throw new Error("You can't vote for your own post.");
+        return Promise.reject(new GraphQLError("You can't vote for your own post."));
       }
 
       const ansAuthor = await c.prisma.user.findFirst({
@@ -694,9 +690,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!ansAuthor) {
-        throw new Error(
-          `User with ID: ${answer.authorId} does not exist in DB.`
-        );
+        return Promise.reject(new GraphQLError(`User with ID: ${answer.authorId} does not exist in DB.`));
       }
       const answerVote = await c.prisma.answerVotes.findFirst({
         where: {
@@ -783,7 +777,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       }) as any; //TODO: Fix this type
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
   acceptAnswer: async (parent, { ansId, quesId }, c: Context) => {
@@ -796,11 +790,11 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!question) {
-        throw new Error(`Question with ID: ${quesId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist in DB.`));
       }
 
       if (question.authorId.toString() !== loggedUser.id.toString()) {
-        throw new Error("Only the author of question can accept answers.");
+        return Promise.reject(new GraphQLError("Only the author of question can accept answers."));
       }
 
       const answer = await c.prisma.answer.findFirst({
@@ -809,7 +803,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       });
       if (!answer) {
-        throw new Error(`Answer with ID: ${ansId} does not exist in DB.`);
+        return Promise.reject(new GraphQLError(`Answer with ID: ${ansId} does not exist in DB.`));
       }
 
       if (
@@ -828,7 +822,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
       }) as any; // Todo: Fix this type
     } catch (err) {
-      throw new Error(errorHandler(err));
+        return Promise.reject(err);
     }
   },
 
@@ -836,7 +830,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     const loggedUser = authChecker(c);
 
     if (body.trim() === "" || body.length < 5) {
-      throw new Error("Comment must be atleast 5 characters long.");
+      return Promise.reject(new GraphQLError("Comment must be atleast 5 characters long."));
     }
 
     switch (parentType) {
@@ -847,7 +841,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           },
         });
         if (!question) {
-          throw new Error(`Question with ID: ${parentId} does not exist!`);
+          return Promise.reject(new GraphQLError(`Question with ID: ${parentId} does not exist!`));
         }
 
         return c.prisma.comment.create({
@@ -874,7 +868,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           },
         });
         if (!answer) {
-          throw new Error(`Answer with ID: ${parentId} does not exist in DB.`);
+          return Promise.reject(new GraphQLError(`Answer with ID: ${parentId} does not exist in DB.`));
         }
         const comment = await c.prisma.comment.create({
           data: {
@@ -894,14 +888,14 @@ const mutationResolvers: Resolvers["Mutation"] = {
         });
       }
       default:
-        throw new Error("Invalid CommentParentType!");
+        return Promise.reject("Invalid CommentParentType!")
     }
   },
   editComment: async (parent, { body, commentId }, c: Context) => {
     const loggedUser = authChecker(c);
 
     if (body.trim() === "" || body.length < 5) {
-      throw new Error("Comment must be atleast 5 characters long.");
+      return Promise.reject(new GraphQLError("Comment must be atleast 5 characters long."));
     }
 
     const comment = await c.prisma.comment.findFirst({
@@ -911,11 +905,11 @@ const mutationResolvers: Resolvers["Mutation"] = {
     });
 
     if (!comment) {
-      throw new Error(`Comment with ID: '${commentId}' does not exist!`);
+      return Promise.reject(new GraphQLError(`Comment with ID: '${commentId}' does not exist!`));
     }
 
     if (comment.author.toString() !== loggedUser.id.toString()) {
-      throw new Error("Access is denied.");
+      return Promise.reject(new GraphQLError("Access is denied."));
     }
 
     return c.prisma.comment.update({
@@ -947,7 +941,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     });
 
     if (!user || user.id.toString() !== loggedUser.id.toString()) {
-      throw new Error(`user with ID: ${loggedUser.id} does not exist!`);
+      return Promise.reject(new GraphQLError(`user with ID: ${loggedUser.id} does not exist!`));
     }
 
     const comment = await c.prisma.comment.findFirst({
@@ -956,10 +950,10 @@ const mutationResolvers: Resolvers["Mutation"] = {
       },
     });
     if (!comment) {
-      throw new Error(`Comment with ID: '${commentId}' does not exist!`);
+      return Promise.reject(new GraphQLError(`Comment with ID: '${commentId}' does not exist!`));
     }
     if (comment.author.toString() !== user.id.toString()) {
-      throw new Error("Access is denied.");
+      return Promise.reject(new GraphQLError("Access is denied."));
     }
     await c.prisma.comment.delete({
       where: {

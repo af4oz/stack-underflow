@@ -3,8 +3,8 @@ import {
   Resolvers,
 } from 'src/server/__generated__/resolvers-types'
 import authChecker from 'src/server/utils/authChecker'
-import errorHandler from 'src/server/utils/errorHandler'
 import { Context } from './context'
+import { GraphQLError } from 'graphql'
 
 const queryResolvers: Resolvers['Query'] = {
   whoami: async (parent, args, c: Context) => {
@@ -17,16 +17,14 @@ const queryResolvers: Resolvers['Query'] = {
           },
         })
         if (!user) {
-          throw new Error(
-            `User with ID: ${loggedUser.id} does not exist in DB.`
-          )
+          return Promise.reject(new GraphQLError(`User with ID: ${loggedUser.id} does not exist in DB.`));
         }
         return user as any // TODO: Fix this type;
       } else {
         return null
       }
     } catch (err) {
-      throw new Error(errorHandler(err))
+        return Promise.reject(err);
     }
   },
   getAllUsers: async (_, _1, c) => {
@@ -40,7 +38,7 @@ const queryResolvers: Resolvers['Query'] = {
   },
   getUser: async (parent, { username }, c: Context) => {
     if (username.trim() === '') {
-      throw new Error('Username must be provided.')
+      return Promise.reject(new GraphQLError('Username must be provided.'));
     }
 
     const user = await c.prisma.user.findUnique({
@@ -50,7 +48,7 @@ const queryResolvers: Resolvers['Query'] = {
     })
 
     if (!user) {
-      throw new Error(`User '${username}' does not exist.`)
+      return Promise.reject(new GraphQLError(`User '${username}' does not exist.`));
     }
     return user as any // TODO: Fix this type;
   },
@@ -133,8 +131,8 @@ const queryResolvers: Resolvers['Query'] = {
       }
 
       return paginatedQues
-    } catch (error) {
-      throw new Error(errorHandler(error))
+    } catch (err) {
+        return Promise.reject(err);
     }
   },
   viewQuestion: async (parent, { quesId }, c: Context) => {
@@ -145,7 +143,7 @@ const queryResolvers: Resolvers['Query'] = {
         },
       })
       if (!question) {
-        throw new Error(`Question with ID: ${quesId} does not exist!`)
+        return Promise.reject(new GraphQLError(`Question with ID: ${quesId} does not exist!`));
       }
 
       const savedQues = await c.prisma.question.update({
@@ -181,7 +179,7 @@ const queryResolvers: Resolvers['Query'] = {
 
       return savedQues as any // TODO: Fix this type;
     } catch (err) {
-      throw new Error(errorHandler(err))
+        return Promise.reject(err);
     }
   },
   getAllTags: async (parent, { limit, cursor, filterBySearch }, c: Context) => {
