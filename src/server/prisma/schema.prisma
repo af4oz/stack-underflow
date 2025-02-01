@@ -22,6 +22,7 @@ model Answer {
   authorId   String   @db.ObjectId
   question   Question @relation(fields: [questionId], references: [id])
   questionId String   @db.ObjectId
+  comments Comment[]
 }
 
 model AnswerVotes {
@@ -35,11 +36,14 @@ model AnswerVotes {
 model Comment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   // v         Int      @map("__v")
-  author    String   @db.ObjectId
+  author   User @relation(fields: [authorId], references: [id])
+  authorId   String   @db.ObjectId
   body      String
   createdAt DateTime @default(now()) @db.Date
   parentId  String   @db.ObjectId
   updatedAt DateTime @default(now()) @db.Date
+  question   Question @relation(fields: [parentId], references: [id])
+  answer   Answer @relation(fields: [parentId], references: [id])
 }
 
 model Question {
@@ -60,6 +64,7 @@ model Question {
   // voted     String?
   answers        Answer[]
   acceptedAnswer String?  @db.ObjectId
+  comments  Comment[]
 }
 
 model QuestionVotes {
@@ -87,6 +92,7 @@ model User {
   username     String     @unique(map: "username_1")
   questions    Question[]
   answers      Answer[]
+  comments Comment[]
 }
 
 enum RoleType {

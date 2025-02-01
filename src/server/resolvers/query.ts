@@ -154,7 +154,16 @@ const queryResolvers: Resolvers['Query'] = {
           views: question.views + 1,
         },
         include: {
-          // comments: {}, // TODO: Add this relation
+          comments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  username: true,
+                }
+              }
+            }
+          },
           author: {
             select: {
               id: true,
@@ -163,7 +172,16 @@ const queryResolvers: Resolvers['Query'] = {
           },
           answers: {
             include: {
-              // comments: {}, // TODO: Add this relation
+              comments: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      username: true,
+                    }
+                  }
+                }
+              },
               author: {
                 select: {
                   id: true,

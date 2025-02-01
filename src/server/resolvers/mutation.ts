@@ -276,7 +276,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         },
         data: updatedQuesObj,
         include: {
-          // comments: {}, // TODO: Add this relation
+          comments: true, 
           author: {
             select: {
               id: true,
@@ -285,7 +285,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           },
           answers: {
             include: {
-              // comments: {}, // TODO: Add this relation
+              comments: true, 
               author: {
                 select: {
                   id: true,
@@ -425,7 +425,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           points: question.points,
         },
         include: {
-          // comments: {}, // TODO: Add this relation
+          comments: true, 
           author: {
             select: {
               id: true,
@@ -434,7 +434,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           },
           answers: {
             include: {
-              // comments: {}, // TODO: Add this relation
+              comments: true, 
               author: {
                 select: {
                   id: true,
@@ -513,7 +513,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         answers: {
           include: {
             author: true,
-            // comments: true, // TODO: Add this relation
+            comments: true, 
           },
         },
       },
@@ -619,13 +619,18 @@ const mutationResolvers: Resolvers["Mutation"] = {
           updatedAt: new Date(),
         },
       });
-
-      const populatedQues = await c.prisma.question.findFirst({
+      return c.prisma.answer.findMany({ // TODO: add pagination
         where: {
-          id: quesId,
+          questionId: quesId,
         },
         include: {
-          answers: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+            },
+          },
+          comments: {
             include: {
               author: {
                 select: {
@@ -633,21 +638,10 @@ const mutationResolvers: Resolvers["Mutation"] = {
                   username: true,
                 },
               },
-              // comments: {
-              //   include: {
-              //     author: {
-              //       select: {
-              //         username: true,
-              //       },
-              //     },
-              //   },
-              // }, // TODO: Add this relation
             },
           },
-        },
-      });
-
-      return populatedQues.answers as any; // TODO: Fix this type;
+         },
+      })
     } catch (err) {
         return Promise.reject(err);
     }
@@ -767,7 +761,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
           points: answer.points,
         },
         include: {
-          // comments: {}, // TODO: Add this relation
+          comments: true,
           author: {
             select: {
               id: true,
@@ -847,20 +841,20 @@ const mutationResolvers: Resolvers["Mutation"] = {
         return c.prisma.comment.create({
           data: {
             body,
-            author: loggedUser.id,
+            authorId: loggedUser.id,
             parentId: question.id,
           },
-          // TODO: Add this relation
-          // include: {
-          //   author: {
-          //     select: {
-          //       username: true,
-          //       id: true,
-          //     }
-          //   }
-          // }
+          include: {
+            author: {
+              select: {
+                username: true,
+                id: true,
+              }
+            }
+          }
         }) as any; // TODO: Fix this type
       }
+      break;
       case CommentParentType.Answer: {
         const answer = await c.prisma.answer.findFirst({
           where: {
@@ -870,23 +864,23 @@ const mutationResolvers: Resolvers["Mutation"] = {
         if (!answer) {
           return Promise.reject(new GraphQLError(`Answer with ID: ${parentId} does not exist in DB.`));
         }
-        const comment = await c.prisma.comment.create({
+        return c.prisma.comment.create({
           data: {
             body,
-            author: loggedUser.id,
+            authorId: loggedUser.id,
             parentId: answer.id,
           },
-          // TODO: Add this relation
-          // include: {
-          //   author: {
-          //     select: {
-          //       username: true,
-          //       id: true,
-          //     }
-          //   }
-          // }
+          include: {
+            author: {
+              select: {
+                username: true,
+                id: true,
+              }
+            }
+          }
         });
       }
+      break;
       default:
         return Promise.reject("Invalid CommentParentType!")
     }
@@ -908,7 +902,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
       return Promise.reject(new GraphQLError(`Comment with ID: '${commentId}' does not exist!`));
     }
 
-    if (comment.author.toString() !== loggedUser.id.toString()) {
+    if (comment.authorId.toString() !== loggedUser.id.toString()) {
       return Promise.reject(new GraphQLError("Access is denied."));
     }
 
@@ -920,15 +914,14 @@ const mutationResolvers: Resolvers["Mutation"] = {
         body,
         updatedAt: new Date(),
       },
-      // TODO: Add this relation
-      // include: {
-      //   author: {
-      //     select: {
-      //       username: true,
-      //       id: true,
-      //     }
-      //   }
-      // }
+      include: {
+        author: {
+          select: {
+            username: true,
+            id: true,
+          }
+        }
+      }
     }) as any; // TODO: Fix this type
   },
   deleteComment: async (parent, { commentId }, c: Context) => {
@@ -952,7 +945,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
     if (!comment) {
       return Promise.reject(new GraphQLError(`Comment with ID: '${commentId}' does not exist!`));
     }
-    if (comment.author.toString() !== user.id.toString()) {
+    if (comment.authorId.toString() !== user.id.toString()) {
       return Promise.reject(new GraphQLError("Access is denied."));
     }
     await c.prisma.comment.delete({
