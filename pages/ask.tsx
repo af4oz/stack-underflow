@@ -197,11 +197,11 @@ const AskQuestionMain = () => {
             renderTags={(_, getTagProps) =>
               tags.map((option: string, index: number) => (
                 <ChipWithClose
-                  key={option}
                   label={option}
                   color="primary"
                   size="small"
                   {...getTagProps({ index })}
+                  key={option}
                 />
               ))
             }
