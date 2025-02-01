@@ -37,3 +37,8 @@ npm run build
 # Start Dev server
 npm run dev
 ```
+
+## TODO
+
+1. Use transactions/others to ensure data consistency
+2. Add pagination to pages/users.tsx

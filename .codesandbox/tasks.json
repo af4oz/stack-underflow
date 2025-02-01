@@ -10,7 +10,7 @@
         "name": "Setup Prisma"
       },
       {
-        "command": "npm build",
+        "command": "npm run build",
         "name": "Build App"
       }
     ],

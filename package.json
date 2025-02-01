@@ -6,7 +6,8 @@
     "build": "graphql-codegen && next build",
     "test": "graphql-codegen && jest",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:setup": "prisma generate && prisma db push"
   },
   "dependencies": {
     "@apollo/client": "^3.6.2",
