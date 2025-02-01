@@ -137,22 +137,20 @@ export async function getServerSideProps({
   const tag = params?.tag ? (params?.tag as string) : undefined
 
   try {
-    const apolloClient = initializeApollo(null, { prisma });
-    const {data} = await apolloClient.query<{data: FetchQuestionsQuery['getQuestions']}>(
-      {
-        query: FetchQuestionsDocument,
-        variables: {
-          sortBy,
-          page,
-          limit: 12,
-          filterByTag: tag,
-        }
-      }
-    )
+    const apolloClient = initializeApollo(null, { prisma })
+    const { data } = await apolloClient.query<FetchQuestionsQuery>({
+      query: FetchQuestionsDocument,
+      variables: {
+        sortBy,
+        page,
+        limit: 12,
+        filterByTag: tag,
+      },
+    })
 
     return {
       props: {
-        data: data.data
+        data: JSON.parse(JSON.stringify(data.getQuestions)),
       }, // will be passed to the page component as props
     }
   } catch (err) {
