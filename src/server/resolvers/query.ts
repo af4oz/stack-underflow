@@ -1,29 +1,32 @@
-import { QuestionSortBy, Resolvers } from "src/server/__generated__/resolvers-types";
-import authChecker from "src/server/utils/authChecker";
-import errorHandler from "src/server/utils/errorHandler";
-import { Context } from "./context";
+import {
+  QuestionSortBy,
+  Resolvers,
+} from 'src/server/__generated__/resolvers-types'
+import authChecker from 'src/server/utils/authChecker'
+import errorHandler from 'src/server/utils/errorHandler'
+import { Context } from './context'
 
-const queryResolvers: Resolvers["Query"] = {
+const queryResolvers: Resolvers['Query'] = {
   whoami: async (parent, args, c: Context) => {
     try {
-      const loggedUser = authChecker(c);
+      const loggedUser = authChecker(c)
       if (loggedUser.id) {
         const user = await c.prisma.user.findUnique({
           where: {
             id: loggedUser.id,
-          }
-        });
+          },
+        })
         if (!user) {
           throw new Error(
             `User with ID: ${loggedUser.id} does not exist in DB.`
-          );
+          )
         }
-        return user as any; // TODO: Fix this type;
+        return user as any // TODO: Fix this type;
       } else {
-        return null;
+        return null
       }
     } catch (err) {
-      throw new Error(errorHandler(err));
+      throw new Error(errorHandler(err))
     }
   },
   getAllUsers: async (_, _1, c) => {
@@ -33,67 +36,77 @@ const queryResolvers: Resolvers["Query"] = {
         username: true,
         createdAt: true,
       },
-    })) as any; // TODO: Fix this type;
+    })) as any // TODO: Fix this type;
   },
   getUser: async (parent, { username }, c: Context) => {
-    if (username.trim() === "") {
-      throw new Error("Username must be provided.");
+    if (username.trim() === '') {
+      throw new Error('Username must be provided.')
     }
 
     const user = await c.prisma.user.findUnique({
       where: {
         username,
       },
-    });
+    })
 
     if (!user) {
-      throw new Error(`User '${username}' does not exist.`);
+      throw new Error(`User '${username}' does not exist.`)
     }
-    return user as any; // TODO: Fix this type;
+    return user as any // TODO: Fix this type;
   },
   getQuestions: async (
     parent,
-    { sortBy, limit, page, filterBySearch, filterByTag },
+    { sortBy, limit, page = 1, filterBySearch, filterByTag },
     c: Context
   ) => {
-    let sortQuery;
+    let sortQuery
     switch (sortBy) {
       case QuestionSortBy.Votes:
-        sortQuery = { points: "desc" };
-        break;
+        sortQuery = { points: 'desc' }
+        break
       case QuestionSortBy.Views:
-        sortQuery = { views: "desc" };
-        break;
+        sortQuery = { views: 'desc' }
+        break
       case QuestionSortBy.Newest:
-        sortQuery = { createdAt: "desc" };
-        break;
+        sortQuery = { createdAt: 'desc' }
+        break
       case QuestionSortBy.Oldest:
-        sortQuery = { createdAt: "asc" };
-        break;
+        sortQuery = { createdAt: 'asc' }
+        break
       default:
-        sortQuery = { createdAt: "desc" };
+        sortQuery = { createdAt: 'desc' }
         // sortQuery = { hotAlgo: "desc" };
-        break;
+        break
     }
 
     try {
       const questions = (await c.prisma.question.findMany({
         where: {
-          title: {
-            ...(filterBySearch ? { contains: filterBySearch } : {}),
-          },
-          body: {
-            ...(filterBySearch ? { contains: filterBySearch } : {}),
-          },
-          tags: {
-            hasSome: filterByTag ? [filterByTag] : [],
-          },
+          AND: [
+            filterBySearch
+              ? {
+                  OR: [
+                    {
+                      title: { contains: filterBySearch, mode: 'insensitive' },
+                    },
+                    { body: { contains: filterBySearch, mode: 'insensitive' } },
+                  ],
+                }
+              : {},
+            filterByTag
+              ? {
+                  tags: {
+                    has: filterByTag,
+                  },
+                }
+              : {},
+          ],
         },
         orderBy: {
           ...sortQuery,
         },
         take: limit,
-        skip: limit * Math.max((page - 1), 0),
+        skip: limit * Math.max(page - 1, 0),
         include: {
           _count: {
             select: {
@@ -107,7 +120,8 @@ const queryResolvers: Resolvers["Query"] = {
             },
           },
         },
-      })) as any; // TODO: Fix this type;
+      })) as any // TODO: Fix this type;
+
       const paginatedQues = {
         totalCount: questions.length,
         currentPage: page,
@@ -116,11 +130,11 @@ const queryResolvers: Resolvers["Query"] = {
         tag: filterByTag,
         search: filterBySearch,
         sortBy,
-      };
+      }
 
-      return paginatedQues;
+      return paginatedQues
     } catch (error) {
-      throw new Error(errorHandler(error));
+      throw new Error(errorHandler(error))
     }
   },
   viewQuestion: async (parent, { quesId }, c: Context) => {
@@ -129,9 +143,9 @@ const queryResolvers: Resolvers["Query"] = {
         where: {
           id: quesId,
         },
-      });
+      })
       if (!question) {
-        throw new Error(`Question with ID: ${quesId} does not exist!`);
+        throw new Error(`Question with ID: ${quesId} does not exist!`)
       }
 
       const savedQues = await c.prisma.question.update({
@@ -161,17 +175,17 @@ const queryResolvers: Resolvers["Query"] = {
             },
           },
         },
-      });
+      })
 
       // const populatedQues = await savedQues.populate(popQuestion)
 
-      return savedQues as any; // TODO: Fix this type;
+      return savedQues as any // TODO: Fix this type;
     } catch (err) {
-      throw new Error(errorHandler(err));
+      throw new Error(errorHandler(err))
     }
   },
   getAllTags: async (parent, { limit, cursor, filterBySearch }, c: Context) => {
-    const _limit = Number(limit) || 10;
+    const _limit = Number(limit) || 10
 
     const tags = await c.prisma.tag.findMany({
       where: {
@@ -181,17 +195,17 @@ const queryResolvers: Resolvers["Query"] = {
       },
       cursor: cursor ? { id: cursor } : undefined,
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
       take: _limit,
-    });
+    })
 
     return {
       tags,
       nextCursor:
-        tags.length && tags.length === limit ? tags[tags.length - 1].id : "",
-    };
+        tags.length && tags.length === limit ? tags[tags.length - 1].id : '',
+    }
   },
-};
+}
 
-export default queryResolvers;
+export default queryResolvers
