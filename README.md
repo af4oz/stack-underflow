@@ -10,7 +10,7 @@ This repo contains code for a website that is similar stackoverflow site. It use
 
   [![Edit af4oz/stack-underflow/main](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/p/github/af4oz/stack-underflow/main?embed=1)
 
-  Wait for VM bootup process....
+  Wait for VM bootup process & Setup task completion....
 
 - **Step 2:** Create a local branch on your codesandbox account.
 - **Step 3:**  
