@@ -41,10 +41,13 @@ const resolvers: Resolvers = {
           points: true,
           createdAt: true,
         },
+        orderBy: {
+          createdAt: 'desc'
+        }
       });
     },
     recentAnswers: async (parent) => {
-      return prisma.answer.findMany({
+      const answers = await prisma.answer.findMany({
         where: {
           authorId: parent.id,
         },
@@ -52,7 +55,18 @@ const resolvers: Resolvers = {
           createdAt: "desc",
         },
         take: 5,
+        include: {
+          question: {
+            select: {
+              id: true,
+              createdAt: true,
+              title: true,
+              points: true
+            }
+          }
+        }
       });
+      return answers.map(item => item.question);
     },
     totalQuestions: async (p, a, c: Context) => {
       return await c.prisma.question.count({
