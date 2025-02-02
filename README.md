@@ -13,8 +13,11 @@ This repo contains code for a website that is similar stackoverflow site. It use
   Wait for VM bootup process & Setup task completion....
 
 - **Step 2:** Create a local branch on your codesandbox account.
-- **Step 3:**  
+- **Step 3:**
+  If all setup tasks are succesfull
   Run `npm run dev`
+  else
+  Run `npm run prisma:setup && npm run build && npm run dev`
 
 ### Local Setup
 
