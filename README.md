@@ -39,6 +39,7 @@ npm run dev
 ```
 
 ## TODO
+- fix: Add E2E testing with playwright/cypress
 - fix: Remove `Only alphanumeric characters & dash are allowed` on tags 🥲
 - fix: Use transactions/others to ensure data consistency
 - fix: Add pagination to pages/users.tsx and others
