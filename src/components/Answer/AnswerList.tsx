@@ -38,7 +38,7 @@ const AnswerList = ({
         {answerList.map((answer, i) => (
           <div key={answer?.id}>
             <AnswerDetails
-              data={answer!}
+              data={answer}
               quesId={quesId}
               acceptedAnswer={acceptedAnswer}
               questionAuthor={quesAuthor}

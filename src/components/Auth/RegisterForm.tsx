@@ -58,7 +58,7 @@ const RegisterForm = ({ setAuthType, closeModal }: RegisterFormProps) => {
       variables: { username, password },
       update: (_, { data }) => {
         setUser(data?.register)
-        notify(`Hey, ${data?.register.username}!`)
+        notify(`Hey ${data?.register.username}, your new account created!`)
         reset()
         closeModal()
       },

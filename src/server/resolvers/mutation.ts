@@ -453,6 +453,7 @@ const mutationResolvers: Resolvers["Mutation"] = {
         return Promise.reject(err);
     }
   },
+
   postAnswer: async (parent, { quesId, body }, c: Context) => {
     const loggedUser = authChecker(c);
 
@@ -505,22 +506,31 @@ const mutationResolvers: Resolvers["Mutation"] = {
     //     },
     //   ],
     // });
-    const populatedQues = await c.prisma.question.findFirst({
+    return c.prisma.answer.findMany({ // TODO: Add pagination
       where: {
-        id: quesId,
+        questionId: quesId,
       },
       include: {
-        answers: {
-          include: {
-            author: true,
-            comments: true, 
-          },
+        author: {
+          select: {
+            username: true,
+            id: true
+          }
         },
+        comments: {
+          include: {
+            author: {
+              select: {
+                username: true,
+                id: true
+              }
+            }
+          }
+        }, 
       },
     });
-
-    return populatedQues.answers as any; // TODO: Fix this type;
   },
+
   deleteAnswer: async (parent, { ansId, quesId }, c: Context) => {
     const loggedUser = authChecker(c);
 
@@ -806,6 +816,8 @@ const mutationResolvers: Resolvers["Mutation"] = {
       ) {
         question.acceptedAnswer = answer.id;
         // TODO: Add reputation to answer author
+      } else {
+        question.acceptedAnswer = null;
       }
       return c.prisma.question.update({
         where: {

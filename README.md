@@ -39,6 +39,12 @@ npm run dev
 ```
 
 ## TODO
-- Remove `Only alphanumeric characters & dash are allowed` on tags 🥲
-- Use transactions/others to ensure data consistency
-- Add pagination to pages/users.tsx and others
+- fix: Remove `Only alphanumeric characters & dash are allowed` on tags 🥲
+- fix: Use transactions/others to ensure data consistency
+- fix: Add pagination to pages/users.tsx and others
+- `defaultProps` issues: See https://github.com/airbnb/babel-plugin-inline-react-svg/issues/126
+- fix: check .graphql files on client and optimize server resolvers and relevant types
+  - Fix type issues/mismatches between resolvers & schema.ts
+- fix: `hook.js:608 Warning: Prop `className` did not match. Server: "sc-isRoRg goqrFR" Client: "sc-hRJfrW eNOCPs"`
+- fix: Accepted answer tickmark is not showing up to other users
+- feat: Implement/Hide sorting by `Hot` tab (currently it's sorting by default:"Newest")

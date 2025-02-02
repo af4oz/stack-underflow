@@ -123,12 +123,6 @@ export async function getServerSideProps({
   query,
   params,
 }: GetServerSidePropsContext) {
-  // const queryString = getGqlString(FetchQuestionsDocument)
-  // if (!queryString) {
-  //   return {
-  //     props: {},
-  //   }
-  // }
   const sortBy = (
     isValidTab(query.tab as string) ? query.tab : validTabs[0]
   ) as QuestionSortBy

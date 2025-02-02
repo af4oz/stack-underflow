@@ -179,8 +179,8 @@ function AnswerDetails({
     voteAnswer(VoteType.Downvote)
   }
   const handleAnswerEdit = () => {
-    reset()
     editAnswer(getValues('editedAnswerBody'))
+    // reset()
     setEditOpen(false)
   }
 
@@ -207,7 +207,7 @@ function AnswerDetails({
         {user && user.id === questionAuthor?.id && (
           <AcceptAnswerButton
             checked={acceptedAnswer === ansId}
-            handleAcceptAns={acceptAnswer!}
+            handleAcceptAns={acceptAnswer}
           />
         )}
       </div>
@@ -251,7 +251,7 @@ function AnswerDetails({
                   <LightButton tw="mr-1" onClick={() => setEditOpen(true)}>
                     Edit
                   </LightButton>
-                  <LightButton>Delete</LightButton>
+                  <LightButton onClick={() => setDeleteModalOpen(true)}>Delete</LightButton>
 
                   <DeleteDialog
                     open={deleteModalOpen}

@@ -91,19 +91,14 @@ export default function Home({ data }: HomeProps) {
 }
 Home.getLayout = getMainLayout
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  // const queryString = getGqlString(FetchQuestionsDocument)
-  // if (!queryString) {
-  //   return {
-  //     props: {
-  //       data: {},
-  //     },
-  //   }
-  // }
+export async function getServerSideProps({ query}: GetServerSidePropsContext) {
   const sortBy = (
     isValidTab(query.tab as string) ? query.tab : QuestionSortBy.Newest
   ) as QuestionSortBy
+  // console.log({query})
   const page = Number(query.page) || 1
+  const filterByTag = query?.tag ? (query?.tag as string) : undefined
+  const filterBySearch = query?.search ? (query?.search as string) : undefined
   try {
     const apolloClient = initializeApollo(null, { prisma })
 
@@ -116,6 +111,8 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
         sortBy,
         page,
         limit: 12,
+        filterByTag,
+        filterBySearch
       },
     })
 

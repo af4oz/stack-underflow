@@ -106,11 +106,11 @@ const queryResolvers: Resolvers['Query'] = {
         take: limit,
         skip: limit * Math.max(page - 1, 0),
         include: {
-          _count: {
-            select: {
-              answers: true,
-            },
-          },
+          // _count: {
+          //   select: {
+          //     answers: true,
+          //   },
+          // },
           author: {
             select: {
               id: true,
@@ -118,7 +118,8 @@ const queryResolvers: Resolvers['Query'] = {
             },
           },
         },
-      })) as any // TODO: Fix this type;
+      }))
+      // console.log({filterBySearch,filterByTag})
 
       const paginatedQues = {
         totalCount: questions.length,
@@ -130,7 +131,7 @@ const queryResolvers: Resolvers['Query'] = {
         sortBy,
       }
 
-      return paginatedQues
+      return paginatedQues as any // fix this type in schema.ts
     } catch (err) {
         return Promise.reject(err);
     }

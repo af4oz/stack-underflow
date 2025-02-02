@@ -26,15 +26,16 @@ const SearchBar = ({ setSearchOpen, ...rest }: SearchBarProps) => {
         router.query?.tag ? `&tag=${router.query.tag}` : ''
       }`,
       undefined,
-      { shallow: true }
+      // { shallow: true }
     )
+    // router.replace(router.asPath)
   }
 
   const clearSearch = () => {
     if (setSearchOpen) {
       setSearchOpen(false)
     }
-    router.push('/', undefined, { shallow: true })
+    router.push('/', undefined)
     setSearchInput('')
   }
 
