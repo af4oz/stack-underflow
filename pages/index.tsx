@@ -1,93 +1,132 @@
-import { useMutation, useQuery } from "@apollo/client";
-import { graphql } from "lib/gql";
-import Link from "next/link";
-import { useState } from "react";
-import { initializeApollo } from "../lib/apollo";
+import { useAuthContext } from '~~/context/auth'
+import SortQuesBar from '~~/components/Buttons/SortQuesTabGroup'
+import QuestionCard from '~~/components/Question/QuestionCard'
+import AuthFormOnButton from '~~/components/Auth/AuthFormOnButton'
 
-const updateNameDocument = graphql(/* GraphQL */ `
-  mutation UpdateName($name: String!) {
-    updateName(name: $name) {
-      id
-      name
-      status
-    }
-  }
-`);
+import tw, { styled } from 'twin.macro'
+import { Button } from '~~/components/my-mui/Misc'
+import Divider from '~~/components/my-mui/Divider'
+import {
+  FetchQuestionsDocument,
+  FetchQuestionsQuery,
+  FetchQuestionsQueryVariables,
+  Question,
+  QuestionSortBy,
+} from '~~/lib/__generated__/graphql'
+import Link from 'next/link'
+import RightSidePanel from '~~/components/Layout/RightSidePanel/dynamic'
+import getMainLayout from '~~/components/Layout/getMainLayout'
+import { GetServerSidePropsContext } from 'next'
+// import { fetchGraphql } from '~~/lib/server/fetch'
+// import { getGqlString } from '~~/utils/graphql'
+import Pagination from '~~/components/Pagination'
+import SEO from '~~/components/SEO'
+import { backendUrl } from '~~/constants'
+import { getPageTitleBasedOnSortBy, isValidTab, toJSON } from '~~/utils'
+import { initializeApollo } from '~~/lib/apollo'
+import prisma from '~~/server/prisma'
 
-const viewerDocument = graphql(/* GraphQL */ `
-  query Viewer {
-    viewer {
-      id
-      name
-      status
-    }
-  }
-`);
+const QuestionListContainer = styled.div`
+  ${tw`relative w-full mx-1 mt-6 sm:mx-3 `}
+`
 
-const Index = () => {
-  const { data } = useQuery(viewerDocument);
-  const [newName, setNewName] = useState("");
-  const [updateNameMutation] = useMutation(updateNameDocument);
+const QuestionListHeader = styled.div`
+  ${tw`flex justify-between items-center`}
+`
 
-  const onChangeName = () => {
-    updateNameMutation({
-      variables: {
-        name: newName,
-      },
-      // Follow apollo suggestion to update cache
-      //  https://www.apollographql.com/docs/angular/features/cache-updates/#update
-      update: (cache, mutationResult) => {
-        const { data } = mutationResult;
-        if (!data) return; // Cancel updating name in cache if no data is returned from mutation.
-        // Read the data from our cache for this query.
-        const result = cache.readQuery({
-          query: viewerDocument,
-        });
+const QuestionListBody = tw.div`min-height[80vh]`
 
-        const newViewer = result ? { ...result.viewer } : null;
-        // Add our comment from the mutation to the end.
-        // Write our data back to the cache.
-        if (newViewer) {
-          newViewer.name = data.updateName.name;
-          cache.writeQuery({
-            query: viewerDocument,
-            data: { viewer: newViewer },
-          });
-        }
-      },
-    });
-  };
+interface HomeMainProps {
+  data: FetchQuestionsQuery['getQuestions']
+}
+export const HomeMain = ({ data }: HomeMainProps) => {
+  const { user } = useAuthContext()
+  const { totalCount, currentPage, pageSize, sortBy } = data
 
-  const viewer = data.viewer;
-
-  return viewer ? (
-    <div>
-      You're signed in as {viewer.name} and you're {viewer.status}. Go to the{" "}
-      <Link href="/about">about</Link> page.
-      <div>
-        <input
-          type="text"
-          placeholder="your new name..."
-          onChange={(e) => setNewName(e.target.value)}
-        />
-        <input type="button" value="change" onClick={onChangeName} />
-      </div>
-    </div>
-  ) : null;
-};
-
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: viewerDocument,
-  });
-
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-    },
-  };
+  return (
+    <QuestionListContainer>
+      <QuestionListHeader>
+        <h2 tw="text-lg sm:text-xl font-normal  m-0">All Questions</h2>
+        {user ? (
+          <Link href="/ask">
+            <Button>Ask Question</Button>
+          </Link>
+        ) : (
+          <AuthFormOnButton buttonType="ask" />
+        )}
+      </QuestionListHeader>
+      <SortQuesBar sortBy={sortBy} />
+      <Divider />
+      <QuestionListBody>
+        {data?.questions &&
+          data.questions.map((q) => (
+            <QuestionCard key={q?.id} question={q as Question} />
+          ))}
+      </QuestionListBody>
+      <Pagination
+        totalCount={totalCount}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        tab={sortBy}
+      />
+    </QuestionListContainer>
+  )
+}
+interface HomeProps {
+  data: FetchQuestionsQuery['getQuestions']
 }
 
-export default Index;
+export default function Home({ data }: HomeProps) {
+  const { sortBy } = data
+  return (
+    <>
+      <SEO
+        title={getPageTitleBasedOnSortBy(sortBy)}
+        path={`${backendUrl}/${sortBy ? `?tab=${sortBy}` : ''}`}
+      />
+      <HomeMain data={data} />
+      <RightSidePanel />
+    </>
+  )
+}
+Home.getLayout = getMainLayout
+
+export async function getServerSideProps({ query}: GetServerSidePropsContext) {
+  const sortBy = (
+    isValidTab(query.tab as string) ? query.tab : QuestionSortBy.Newest
+  ) as QuestionSortBy
+  // console.log({query})
+  const page = Number(query.page) || 1
+  const filterByTag = query?.tag ? (query?.tag as string) : undefined
+  const filterBySearch = query?.search ? (query?.search as string) : undefined
+  try {
+    const apolloClient = initializeApollo(null, { prisma })
+
+    const { data } = await apolloClient.query<
+      FetchQuestionsQuery,
+      FetchQuestionsQueryVariables
+    >({
+      query: FetchQuestionsDocument,
+      variables: {
+        sortBy,
+        page,
+        limit: 12,
+        filterByTag,
+        filterBySearch
+      },
+    })
+
+    return {
+      props: {
+        data: toJSON(data.getQuestions),
+      }, // will be passed to the page component as props
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      props: {
+        data: {},
+      },
+    }
+  }
+}

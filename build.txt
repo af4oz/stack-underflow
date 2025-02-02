@@ -1,0 +1,273 @@
+
+> build
+> yarn graphql-codegen && next build
+
+yarn run v1.22.22
+$ /Users/af4oz/code/fullstack/stack-underflow/node_modules/.bin/graphql-codegen
+[STARTED] Parse Configuration
+[SUCCESS] Parse Configuration
+[STARTED] Generate outputs
+[STARTED] Generate to ./lib/gql/
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to ./lib/gql/
+[STARTED] Generate to ./lib/resolvers-types.ts
+[STARTED] Load GraphQL schemas
+[SUCCESS] Load GraphQL schemas
+[STARTED] Load GraphQL documents
+[SUCCESS] Load GraphQL documents
+[STARTED] Generate
+[SUCCESS] Generate
+[SUCCESS] Generate to ./lib/resolvers-types.ts
+[SUCCESS] Generate outputs
+Done in 0.91s.
+info  - Linting and checking validity of types...
+
+Failed to compile.
+
+./pages/ask.tsx
+132:11  Error: Unknown property 'tw' found  react/no-unknown-property
+136:9  Error: Unknown property 'tw' found  react/no-unknown-property
+143:14  Error: Unknown property 'tw' found  react/no-unknown-property
+144:14  Error: Unknown property 'tw' found  react/no-unknown-property
+159:14  Error: Unknown property 'tw' found  react/no-unknown-property
+160:14  Error: Unknown property 'tw' found  react/no-unknown-property
+176:14  Error: Unknown property 'tw' found  react/no-unknown-property
+177:14  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/index-demo.tsx
+65:10  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+65:48  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./pages/index.tsx
+47:13  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/questions/[quesId].tsx
+62:14  Error: Unknown property 'tw' found  react/no-unknown-property
+63:15  Error: Unknown property 'tw' found  react/no-unknown-property
+66:16  Error: Unknown property 'tw' found  react/no-unknown-property
+76:14  Error: Unknown property 'tw' found  react/no-unknown-property
+81:19  Error: Unknown property 'tw' found  react/no-unknown-property
+85:17  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/questions/tagged/[tag].tsx
+57:13  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/tags/index.tsx
+37:11  Error: Unknown property 'tw' found  react/no-unknown-property
+38:10  Error: Unknown property 'tw' found  react/no-unknown-property
+74:22  Error: Unknown property 'tw' found  react/no-unknown-property
+75:25  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/user/[userName].tsx
+80:10  Error: Unknown property 'tw' found  react/no-unknown-property
+81:21  Error: Unknown property 'tw' found  react/no-unknown-property
+83:12  Error: Unknown property 'tw' found  react/no-unknown-property
+86:17  Error: Unknown property 'tw' found  react/no-unknown-property
+87:19  Error: Unknown property 'tw' found  react/no-unknown-property
+91:16  Error: Unknown property 'tw' found  react/no-unknown-property
+93:19  Error: Unknown property 'tw' found  react/no-unknown-property
+97:19  Error: Unknown property 'tw' found  react/no-unknown-property
+103:16  Error: Unknown property 'tw' found  react/no-unknown-property
+104:17  Error: Unknown property 'tw' found  react/no-unknown-property
+114:18  Error: Unknown property 'tw' found  react/no-unknown-property
+118:17  Error: Unknown property 'tw' found  react/no-unknown-property
+128:18  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./pages/users.tsx
+31:11  Error: Unknown property 'tw' found  react/no-unknown-property
+49:14  Error: Unknown property 'tw' found  react/no-unknown-property
+55:32  Error: Unknown property 'css' found  react/no-unknown-property
+65:29  Error: Unknown property 'tw' found  react/no-unknown-property
+68:22  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Answer/AnswerDetails.tsx
+188:10  Error: Unknown property 'tw' found  react/no-unknown-property
+189:12  Error: Unknown property 'tw' found  react/no-unknown-property
+214:12  Error: Unknown property 'tw' found  react/no-unknown-property
+216:14  Error: Unknown property 'tw' found  react/no-unknown-property
+246:14  Error: Unknown property 'tw' found  react/no-unknown-property
+248:18  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Answer/AnswerForm.tsx
+76:20  Error: Unknown property 'tw' found  react/no-unknown-property
+100:12  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Answer/AnswerList.tsx
+28:10  Error: Unknown property 'tw' found  react/no-unknown-property
+30:14  Error: Unknown property 'tw' found  react/no-unknown-property
+31:15  Error: Unknown property 'tw' found  react/no-unknown-property
+37:12  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Auth/AuthFormOnButton.tsx
+111:14  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Auth/LoginForm.tsx
+60:10  Error: Unknown property 'tw' found  react/no-unknown-property
+65:9  Error: Unknown property 'tw' found  react/no-unknown-property
+70:14  Error: Unknown property 'tw' found  react/no-unknown-property
+89:14  Error: Unknown property 'tw' found  react/no-unknown-property
+132:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Auth/RegisterForm.tsx
+69:10  Error: Unknown property 'tw' found  react/no-unknown-property
+74:9  Error: Unknown property 'tw' found  react/no-unknown-property
+79:14  Error: Unknown property 'tw' found  react/no-unknown-property
+98:14  Error: Unknown property 'tw' found  react/no-unknown-property
+132:14  Error: Unknown property 'tw' found  react/no-unknown-property
+180:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Buttons/LoadMore.tsx
+13:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Buttons/SortQuesTabGroup.tsx
+13:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Comment/Comments.tsx
+197:27  Error: Unknown property 'tw' found  react/no-unknown-property
+219:57  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Comment/index.tsx
+41:10  Error: Unknown property 'tw' found  react/no-unknown-property
+44:14  Error: Unknown property 'tw' found  react/no-unknown-property
+50:19  Error: Unknown property 'tw' found  react/no-unknown-property
+73:15  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Dialogs/Dialog.tsx
+63:30  Error: Unknown property 'tw' found  react/no-unknown-property
+69:11  Error: Unknown property 'tw' found  react/no-unknown-property
+101:10  Error: Unknown property 'tw' found  react/no-unknown-property
+101:45  Error: Unknown property 'css' found  react/no-unknown-property
+102:11  Error: Unknown property 'tw' found  react/no-unknown-property
+124:10  Error: Unknown property 'tw' found  react/no-unknown-property
+134:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Layout/MainLayout.tsx
+11:10  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Layout/RightSidePanel/index.tsx
+26:12  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/LoadingSpinner.tsx
+32:7  Error: Unknown property 'css' found  react/no-unknown-property
+38:9  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/Navs/NavBar.tsx
+63:18  Error: Unknown property 'tw' found  react/no-unknown-property
+78:22  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Navs/NavMenuDesktop.tsx
+17:10  Error: Unknown property 'tw' found  react/no-unknown-property
+18:12  Error: Unknown property 'tw' found  react/no-unknown-property
+19:14  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/NotFound.tsx
+8:10  Error: Unknown property 'tw' found  react/no-unknown-property
+9:12  Error: Unknown property 'tw' found  react/no-unknown-property
+13:13  Error: Unknown property 'tw' found  react/no-unknown-property
+14:12  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/PostedBy.tsx
+25:10  Error: Unknown property 'tw' found  react/no-unknown-property
+26:12  Error: Unknown property 'tw' found  react/no-unknown-property
+30:14  Error: Unknown property 'tw' found  react/no-unknown-property
+35:12  Error: Unknown property 'tw' found  react/no-unknown-property
+74:13  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Question/QuestionCard.tsx
+37:17  Error: Unknown property 'tw' found  react/no-unknown-property
+40:14  Error: Unknown property 'tw' found  react/no-unknown-property
+41:17  Error: Unknown property 'tw' found  react/no-unknown-property
+49:16  Error: Unknown property 'tw' found  react/no-unknown-property
+54:12  Error: Unknown property 'tw' found  react/no-unknown-property
+55:14  Error: Unknown property 'tw' found  react/no-unknown-property
+56:16  Error: Unknown property 'tw' found  react/no-unknown-property
+68:16  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Question/QuestionDetails.tsx
+97:10  Error: Unknown property 'tw' found  react/no-unknown-property
+98:12  Error: Unknown property 'tw' found  react/no-unknown-property
+117:12  Error: Unknown property 'tw' found  react/no-unknown-property
+118:12  Error: Unknown property 'tw' found  react/no-unknown-property
+119:13  Error: Unknown property 'tw' found  react/no-unknown-property
+132:14  Error: Unknown property 'tw' found  react/no-unknown-property
+134:18  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/Question/RecentQuestions.tsx
+14:10  Error: Unknown property 'tw' found  react/no-unknown-property
+15:12  Error: Unknown property 'tw' found  react/no-unknown-property
+21:13  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/SearchBar.tsx
+42:10  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/Tags.tsx
+14:11  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/my-mui/Alert.tsx
+46:7  Error: Unknown property 'css' found  react/no-unknown-property
+54:16  Error: Unknown property 'css' found  react/no-unknown-property
+57:11  Error: Unknown property 'css' found  react/no-unknown-property
+65:13  Error: Unknown property 'css' found  react/no-unknown-property
+72:16  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Avatar.tsx
+19:9  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Checkbox.tsx
+19:7  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Chips.tsx
+16:7  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/IconButton.tsx
+27:13  Error: Unknown property 'css' found  react/no-unknown-property
+38:11  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/InputAdornment.tsx
+8:9  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Paper.tsx
+20:7  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Snackbar.tsx
+31:13  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/components/my-mui/Tag.tsx
+29:32  Error: Unknown property 'css' found  react/no-unknown-property
+30:17  Error: Unknown property 'css' found  react/no-unknown-property
+31:19  Error: Unknown property 'tw' found  react/no-unknown-property
+38:23  Error: Unknown property 'css' found  react/no-unknown-property
+39:15  Error: Unknown property 'tw' found  react/no-unknown-property
+
+./src/components/my-mui/TextField.tsx
+70:9  Error: Unknown property 'css' found  react/no-unknown-property
+77:11  Error: Unknown property 'css' found  react/no-unknown-property
+85:15  Error: Unknown property 'css' found  react/no-unknown-property
+99:15  Error: Unknown property 'css' found  react/no-unknown-property
+106:15  Error: Unknown property 'css' found  react/no-unknown-property
+111:13  Error: Unknown property 'css' found  react/no-unknown-property
+114:15  Error: Unknown property 'tw' found  react/no-unknown-property
+123:14  Error: Unknown property 'css' found  react/no-unknown-property
+
+./src/config.ts
+1:1  Warning: Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+./src/context/auth.tsx
+61:6  Warning: React Hook React.useMemo has an unnecessary dependency: 'storage'. Either exclude it or remove the dependency array. Outer scope values like 'storage' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+
+./src/context/state.tsx
+134:6  Warning: React Hook React.useMemo has an unnecessary dependency: 'storage'. Either exclude it or remove the dependency array. Outer scope values like 'storage' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+
+./src/hooks/useModal.ts
+40:15  Error: React Hook "useRef" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+50:3  Error: React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+53:31  Warning: Assignments to the 'avoidFocusOnMouseDown' variable from inside React Hook useEffect will be lost after each render. To preserve the value over time, store it in a useRef Hook and keep the mutable value in the '.current' property. Otherwise, you can move this variable directly inside useEffect.  react-hooks/exhaustive-deps
+87:3  Error: React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render. Did you accidentally call a React Hook after an early return?  react-hooks/rules-of-hooks
+198:6  Warning: React Hook useEffect has a missing dependency: 'avoidFocusOnMouseDown'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

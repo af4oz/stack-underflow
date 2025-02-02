@@ -1,0 +1,8 @@
+{
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true,
+    "files.autoSave": "off",
+    "prettier.configPath": "./.prettierrc",
+    "prettier.requireConfig": true,
+    "editor.formatOnSave": true
+}

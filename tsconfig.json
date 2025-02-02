@@ -14,8 +14,22 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "~~/*": ["./src/*"]
+    }
   },
-  "include": ["next-env.d.ts", "graphql.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", ".cache"]
+  "include": [
+    "next-env.d.ts",
+    "graphql.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/types", // TODO: why?
+  ],
+  "exclude": ["node_modules", ".cache"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs" // Don't panic! It Only applies to ts-node library
+    }
+  }
 }

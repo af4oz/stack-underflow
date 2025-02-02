@@ -31,6 +31,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+!.env.example
 
 # vercel
 .vercel
@@ -45,5 +47,8 @@ next-env.d.ts
 *.graphqls.d.ts
 .cache
 
-lib/resolvers-types.ts
-lib/graphql-operations.ts
+
+**/*/__generated__
+
+.idx/*
+!.idx/dev.nix
