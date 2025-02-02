@@ -47,5 +47,5 @@ npm run dev
 - fix: check .graphql files on client and optimize server resolvers and relevant types
   - Fix type issues/mismatches between resolvers & schema.ts
 - fix: `hook.js:608 Warning: Prop `className` did not match. Server: "sc-isRoRg goqrFR" Client: "sc-hRJfrW eNOCPs"`
-- fix: Accepted answer tickmark is not showing up to other users
+- fix: Accepted answer tickmark is not showing up to other users (Related [Lines of code](https://github.com/af4oz/stack-underflow/blob/a6cb56aa617515afa2dcd27c6c1081c0a2cc7f41/src/server/prisma/schema.prisma#L19C1-L20C21))
 - feat: Implement/Hide sorting by `Hot` tab (currently it's sorting by default:"Newest")
