@@ -1,6 +1,6 @@
 # Stack Underflow
 
-This repo contains code for a website that is similar stackoverflow site. It uses MERN architecture but with Next.js & Graphql.
+An attempt at building Stackoverflow clone without a UI library, using prisma-orm and others.
 
 ## How to run this program?
 
